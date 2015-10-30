@@ -11,35 +11,68 @@
 <body>
 <section>
     <div class="container">
-    	<div class="row text-center">
-    		<div class="col-md-10 col-md-offset-1">
-    			<div class="panel panel-info">
-    				  <div class="panel-heading">
-    						<h3 class="panel-title">Task manager</h3>
-    				  </div>
+        <div class="row text-center">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Task manager</h3>
+                    </div>
 
-    				  <div class="panel-body">
+                    <div class="panel-body">
 
-                          <form class="form-horizontal task-form" role="form">
-                              <div class="form-group">
-                                  <legend>Create task</legend>
-                              </div>
+                        <section class="tasks-section">
+                            <form class="form-horizontal task-form" role="form">
+                                <div class="form-group">
+                                    <legend>Create task</legend>
+                                </div>
 
-                              <div class="form-group">
-                                  <div class="">
-                                      <input type="text" name="" class="task-field form-control" autocomplete="off"/>
-                                  </div>
-                                  <button type="submit" class="btn btn-primary">Submit</button>
-                              </div>
-                          </form>
-                          <hr/>
-                          <ul class="list-group task-list">
+                                <div class="form-group">
+                                    <div class="">
+                                        <input type="text" placeholder="Task text is here..." name=""
+                                               class="task-field form-control" autocomplete="off"/>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                            <hr/>
+                            <ul class="list-group task-list">
 
-                          </ul>
-    				  </div>
-    			</div>
-    		</div>
-    	</div>
+                            </ul>
+                            <div class="task-comments-container" style="display: none;">
+
+                            </div>
+                        </section>
+                        <section class="comments-section" style="display: none;">
+                            <form class="form-horizontal comment-form" role="form">
+                                <div class="form-group">
+                                    <legend>Create Comment</legend>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="">
+                                        <input type="text" placeholder="User name" name="task-comment-user"
+                                               class="comment-user-field form-control" autocomplete="on"/>
+                                        <br/>
+                                <textarea placeholder="Comment here..." name="task-text"
+                                          class="comment-text-field form-control" cols="15" rows="5"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="button" class="btn btn-default back-to-task-list">Back</button>
+                                </div>
+                            </form>
+                            <hr/>
+                            <ul class="list-group comments-list">
+
+                            </ul>
+                        </section>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -48,12 +81,49 @@
     <div class="task-container">
         <li class="list-group-item task-list-text"></li>
         <input type="text" name="" class="task-edit-field form-control" style="display: none;"/>
-        <button  class="btn btn-success task-edit" >Edit</button>
-        <button  class="btn btn-success task-save" style="display: none;">Save</button>
-        <button  class="btn btn-danger task-remove" >Remove</button>
-        <button  class="btn btn-default task-cancel" style="display: none;">Cancel</button>
+        <button class="btn btn-info task-comments">Comments</button>
+        <button class="btn btn-success task-edit">Edit</button>
+        <button class="btn btn-success task-save" style="display: none;">Save</button>
+        <button class="btn btn-danger task-remove">Remove</button>
+        <button class="btn btn-default task-cancel" style="display: none;">Cancel</button>
     </div>
-
 </script>
+
+<script type="text/template" class="comment-template">
+    <div class="comment-container">
+        <!--<span class="badge">Badge</span>-->
+        <div class="list-group-item ">
+            <p class="task-comment-text"></p>
+            <input type="text" name="" class="task-comment-edit-field form-control" style="display: none;"/>
+            <span class="badge task-comment-user-text"></span>
+        </div>
+        <button class="btn btn-success task-comment-edit">Edit</button>
+        <button class="btn btn-success task-comment-save" style="display: none;">Save</button>
+        <button class="btn btn-danger task-comment-remove">Remove</button>
+        <button class="btn btn-default task-comment-cancel" style="display: none;">Cancel</button>
+    </div>
+</script>
+
+<!--<script type="text/template" class="comments-container-template">-->
+<!--<form class="form-horizontal comment-form" role="form" >-->
+<!--<div class="form-group">-->
+<!--<legend>Create Comment</legend>-->
+<!--</div>-->
+
+<!--<div class="form-group">-->
+<!--<div class="">-->
+<!--<input type="text" placeholder="User name" name="task-comment-user" class="comment-user-field form-control" autocomplete="on"/>-->
+<!--<br/>-->
+<!--<textarea placeholder="Comment here..." name="task-text" class="comment-text-field form-control" cols="15" rows="5"></textarea>-->
+<!--</div>-->
+<!--<button type="submit" class="btn btn-primary">Submit</button>-->
+<!--<button type="button" class="btn btn-primary back-to-task-list">Back</button>-->
+<!--</div>-->
+<!--</form>-->
+<!--<hr/>-->
+<!--<ul class="list-group comments-list">-->
+
+<!--</ul>-->
+<!--</script>-->
 </body>
 </html>
