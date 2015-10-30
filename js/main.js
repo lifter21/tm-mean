@@ -56,11 +56,14 @@ $('document').ready(function () {
         })
 
         $task.find('.task-save').click(function () {
-            //var newValue = $task.find('.task-edit-field').val()
-            tasksArray[taskIndex].text = $task.find('.task-edit-field').val()
-            $task.find('.task-list-text, .task-comments-button, .task-remove, .task-edit').show()
-            $task.find('.task-edit-field, .task-save, .task-cancel').hide()
-            displayTasks()
+            var newTaskValue = $task.find('.task-edit-field').val()
+            if (newTaskValue !== '') {
+                tasksArray[taskIndex].text = newTaskValue
+                $task.find('.task-list-text, .task-comments-button, .task-remove, .task-edit').show()
+                $task.find('.task-edit-field, .task-save, .task-cancel').hide()
+                displayTasks()
+            }
+
         })
 
         $task.find('.task-comments').click(function () {
@@ -118,11 +121,13 @@ $('document').ready(function () {
         })
 
         $comment.find('.task-comment-save').click(function () {
-            tasksArray[taskIndex].comments[commentIndex].text = $comment.find('.task-comment-edit-field').val()
-            $comment.find('.task-comment-text, .task-comment-remove, .task-comment-edit').show()
-            $comment.find('.task-comment-edit-field, .task-comment-save, .task-comment-cancel').hide()
-            displayComments(task)
-
+            var newCommentValue = $comment.find('.task-comment-edit-field').val()
+            if (newCommentValue !== '') {
+                tasksArray[taskIndex].comments[commentIndex].text = newCommentValue
+                $comment.find('.task-comment-text, .task-comment-remove, .task-comment-edit').show()
+                $comment.find('.task-comment-edit-field, .task-comment-save, .task-comment-cancel').hide()
+                displayComments(task)
+            }
         })
     }
 })
