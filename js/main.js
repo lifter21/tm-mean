@@ -18,6 +18,24 @@ $('document').ready(function () {
         }
     })
 
+    function displayTasks() {
+        $('.task-list').empty()
+        $.each(tasksArray, function (i, task) {
+            addTask(task);
+        })
+    }
+
+    function displayComments(task) {
+        var commentsTaskIndex = tasksArray.indexOf(task)
+        $('.comments-list').empty()
+        console.log(commentsTaskIndex);
+        console.log(tasksArray);
+        console.log(task);
+        $.each(tasksArray[commentsTaskIndex].comments, function (i, comment) {
+            addComment(task, comment);
+        })
+    }
+
     function addTask(task) {
         var taskIndex = tasksArray.indexOf(task)
         var $task = $(taskTemplateText)
@@ -57,6 +75,14 @@ $('document').ready(function () {
         })
     }
 
+    $('.back-to-task-list').click(function () {
+        $('.comments-section').hide()
+        $('.tasks-section').show()
+        commentTextField.val('')
+        commentUserField.val('')
+        taskInputField.val('')
+    })
+
     $('.comment-form').submit(function (event) {
         event.preventDefault()
         var commentTextValue = commentTextField.val()
@@ -68,21 +94,6 @@ $('document').ready(function () {
             displayComments(tasksArray[taskInViewIndex])
         }
     })
-
-    $('.back-to-task-list').click(function () {
-        $('.comments-section').hide()
-        $('.tasks-section').show()
-        commentTextField.val('')
-        commentUserField.val('')
-        taskInputField.val('')
-    })
-
-    function displayTasks() {
-        $('.task-list').empty()
-        $.each(tasksArray, function (index, task) {
-            addTask(task);
-        })
-    }
 
     function addComment(task, comment) {
         var taskIndex = tasksArray.indexOf(task)
@@ -116,19 +127,6 @@ $('document').ready(function () {
             displayComments(task)
 
         })
-
     }
-
-    function displayComments(task) {
-        var commentsTaskIndex = tasksArray.indexOf(task)
-        $('.comments-list').empty()
-        console.log(commentsTaskIndex);
-        console.log(tasksArray);
-        console.log(task);
-        $.each(tasksArray[commentsTaskIndex].comments, function (index, comment) {
-            addComment(task, comment);
-        })
-    }
-
 })
 
