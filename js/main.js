@@ -28,9 +28,6 @@ $('document').ready(function () {
     function displayComments(task) {
         var commentsTaskIndex = tasksArray.indexOf(task)
         $('.comments-list').empty()
-        console.log(commentsTaskIndex);
-        console.log(tasksArray);
-        console.log(task);
         $.each(tasksArray[commentsTaskIndex].comments, function (i, comment) {
             addComment(task, comment);
         })
