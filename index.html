@@ -48,7 +48,7 @@
                                 <div class="form-group">
                                     <div class="">
                                         <input type="text" placeholder="User name" name="task-comment-user"
-                                               class="task-comment-user-field form-control" autocomplete="on"/>
+                                               class="comment-user-field form-control" autocomplete="on"/>
                                         <br/>
                                 <textarea placeholder="Comment here..." name="task-text"
                                           class="comment-text-field form-control" cols="15" rows="5"></textarea>
@@ -62,7 +62,10 @@
 
                             </ul>
                         </section>
-
+                        <section class="task-show-section" style="display: none;">
+                            <div class="single-task"></div>
+                            <button type="button" class="btn btn-default back-to-task-list">Back to task list</button>
+                        </section>
                     </div>
 
 
@@ -78,6 +81,7 @@
     <div class="task-container">
         <li class="list-group-item task-list-text"></li>
         <input type="text" name="" class="task-edit-field form-control" style="display: none;"/>
+        <button class="btn btn-default task-show">Show</button>
         <button class="btn btn-info task-comments">Comments</button>
         <button class="btn btn-success task-edit">Edit</button>
         <button class="btn btn-success task-save" style="display: none;">Save</button>
