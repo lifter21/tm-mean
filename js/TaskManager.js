@@ -1,78 +1,14 @@
-angular.module('TaskManager', ['ui.router, ngResource'])
-    .factory('CommentsService', function () {
-        //var CommentsService = {
-            //comments: [
-            //    { id: randId(), task_id: 1, text: 'task 1 comment 1', user: 'user 1' },
-            //    { id: randId(), task_id: 1, text: 'task 1 comment 2', user: 'user 2' },
-            //    { id: randId(), task_id: 2, text: 'task 2 comment 1', user: 'user 11' },
-            //    { id: randId(), task_id: 2, text: 'task 2 comment 2', user: 'user 4' },
-            //    { id: randId(), task_id: 3, text: 'task 3 comment 1', user: 'user 5' },
-            //    { id: randId(), task_id: 3, text: 'task 3 comment 2', user: 'user 6' },
-            //    { id: randId(), task_id: 3, text: 'task 3 comment 3', user: 'user 3' },
-            //    { id: randId(), task_id: 1, text: 'task 1 comment 3', user: 'user 2' },
-            //    { id: randId(), task_id: 1, text: 'task 1 comment 4', user: 'user 1' }
-            //],
-            //getCommentsByTaskId: function (taskId) {
-            //    var comments = _.filter(this.comments, {'task_id': taskId});
-            //    return comments
-            //},
-            //getCommentById: function (commentId) {
-            //    var comment = _.find(this.comments, {'id': commentId});
-            //    return comment
-            //},
-            //remove: function (comment) {
-            //    _.remove(this.comments, comment)
-            //},
-            //save: function (comment) {
-            //    if (comment.id === '') {
-            //        if (comment.text !== '' && comment.user !== '') {
-            //            //console.log(task, this.randId());
-            //            comment.id = randId();
-            //            this.comments.push(comment)
-            //        }
-            //    }
-            //}
+angular.module('TaskManager', ['ui.router', 'ngResource'])
+    .factory('Task', function ($resource) {
+        return $resource('/api/tasks/:taskId', {taskId: '@id'}, {
+            'update': {method: 'PUT'}
+        })
+    })
+    .factory('Comment', function ($resource) {
+        return $resource('/api/tasks/:taskId/comments/:commentId', {taskId: '@task_id', commentId: '@id'},
+            {'update': {method: 'PUT'}})
+    })
 
-        //};
-        //return CommentsService
-    })
-    .factory('TaskService', function () {
-        //var TaskService = {
-            //tasks: [
-            //    {
-            //        id: 1,
-            //        text: 'task 3 text'
-            //    },
-            //    {
-            //        id: 2,
-            //        text: 'task 4 text'
-            //    }
-            //],
-            //getTasks: function () {
-            //    return this.tasks
-            //},
-            //getTaskById: function (taskId) {
-            //    var task = _.find(this.tasks, function (taskObj) {
-            //        return taskObj.id === taskId
-            //    });
-            //    return task
-            //},
-            //remove: function (task) {
-            //    _.remove(this.tasks, task)
-            //},
-            //save: function (task) {
-            //    //console.log(randId());
-            //    if (task.id === '') {
-            //        if (task.text !== '') {
-            //            //console.log(task, this.randId());
-            //            task.id = randId();
-            //            this.tasks.push(task)
-            //        }
-            //    }
-            //}
-        //};
-        //return TaskService
-    })
     .config(function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise("/");
         //
@@ -108,70 +44,75 @@ angular.module('TaskManager', ['ui.router, ngResource'])
                 templateUrl: "partials/comments/form.html"
             })
             .state('task-comments-edit', {
-                url: "/task/:taskId/comments/:commentId/edit",
+                url: "/tasks/:taskId/comments/:commentId/edit",
                 controller: "CommentFormController",
                 templateUrl: "partials/comments/form.html"
             })
 
     })
-    .controller('TaskListController', function ($scope, TaskService, CommentsService) {
-        $scope.tasks = TaskService.getTasks();
-
-        $scope.getCommentsCount = function (taskId) {
-            return CommentsService.getCommentsByTaskId(taskId).length
-        };
+    .controller('TaskListController', function ($scope, Task, Comment) {
+        $scope.tasks = Task.query()
 
         $scope.remove = function (task) {
-            TaskService.remove(task)
+            task.$remove().then(function () {
+                $scope.tasks = Task.query();
+            });
         }
     })
-    .controller('TaskFormController', function ($scope, $state, TaskService) {
+    .controller('TaskFormController', function ($scope, $state, Task) {
         if ($state.params.taskId) {
-            $scope.task = TaskService.getTaskById(Number($state.params.taskId))
+            $scope.task = Task.get({taskId: $state.params.taskId})
         } else {
-            $scope.task = {id: '', text: ''}
+            $scope.task = new Task();
         }
 
         $scope.save = function () {
             if ($scope.task.text !== '') {
-                TaskService.save($scope.task);
-                $state.go('tasks')
+                if ($scope.task.id) {
+                    $scope.task.$update().then(function () {
+                        $state.go('tasks')
+                    })
+                } else {
+                    $scope.task.$save().then(function () {
+                        $state.go('tasks')
+                    })
+                }
             }
         }
     })
-    .controller('CommentListController', function ($scope, $state, CommentsService) {
-        $scope.taskID = Number($state.params.taskId);
-        $scope.comments = loadComments();
+    .controller('CommentListController', function ($scope, $state, Comment) {
+        $scope.taskID = $state.params.taskId;
+        $scope.comments = Comment.query({taskId: $state.params.taskId});
 
         $scope.remove = function (comment) {
-            CommentsService.remove(comment);
-            $scope.comments = loadComments();
-            //$state.go('tasks')
+            comment.$remove().then(function () {
+                $scope.comments = Comment.query({taskId: $state.params.taskId});
+            })
         };
 
-        function loadComments() {
-            return CommentsService.getCommentsByTaskId($scope.taskID);
-        }
     })
-    .controller('CommentFormController', function ($scope, $state, CommentsService) {
+    .controller('CommentFormController', function ($scope, $state, Comment) {
         $scope.taskID = $state.params.taskId;
         $scope.commentID = $state.params.commentId;
+
         if ($scope.taskID && $scope.commentID) {
-            $scope.comment = CommentsService.getCommentById(Number($scope.commentID))
+            $scope.comment = Comment.get({taskId: $scope.taskID, commentId: $scope.commentID})
         } else {
-            $scope.comment = {id: '', task_id: Number($scope.taskID), text: '', user: ''}
+            $scope.comment = new Comment();
         }
 
         //console.log($scope.comment);
         $scope.save = function () {
             if ($scope.comment.text !== '' && $scope.comment.user !== '') {
-                //console.log();
-                CommentsService.save($scope.comment);
-                $state.go('task-comments', {taskId: $scope.taskID})
+                if ($scope.comment.id) {
+                    $scope.comment.$update({taskId: $scope.taskID, commentId: $scope.commentID}).then(function () {
+                        $state.go('task-comments', {taskId: $scope.taskID})
+                    })
+                } else {
+                    $scope.comment.$save({taskId: $scope.taskID}).then(function () {
+                        $state.go('task-comments', {taskId: $scope.taskID})
+                    })
+                }
             }
         }
     });
-
-//function randId() {
-//    return Math.floor(Math.random() * Math.pow(10, 6));
-//}

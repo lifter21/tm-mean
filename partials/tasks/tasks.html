@@ -20,7 +20,7 @@
                                     <button class="btn btn-sm btn-danger" ng-click="remove(task)">Remove</button>
                                     <a class="btn btn-sm btn-success" ui-sref="task-edit({taskId: task.id})" >Edit</a>
                                     <a class="btn btn-sm btn-info" ui-sref="task-comments({taskId: task.id})" >Comments
-                                    <span class="badge">{{ getCommentsCount(task.id) }}</span>
+                                    <span class="badge">{{ task.commentsCount }}</span>
                                     </a>
                                 </li>
 
