@@ -8,7 +8,6 @@
   "moduleType": [],
   "license": "MIT",
   "homepage": "",
-  "private": true,
   "ignore": [
     "**/.*",
     "node_modules",
@@ -18,9 +17,7 @@
   ],
   "dependencies": {
     "bootstrap": "~3.3.5",
-    "angular": "~1.4.7",
-    "angular-ui-router": "~0.2.15",
-    "lodash": "~3.10.1",
+    "angular-ui-router": "ui-router#~0.2.15",
     "angular-resource": "~1.4.7"
   }
 }

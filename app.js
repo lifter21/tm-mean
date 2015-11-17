@@ -1,149 +1,135 @@
-/**
- * Created by alex on 10.11.15.
- */
 var express = require('express');
 var _ = require('lodash');
-//var fs = require('fs')
+
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/task-man');
+
 var app = express();
 var bodyParser = require('body-parser');
 
 app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({extended: true})); // for parsing application/x-www-form-urlencoded
 
+app.use(express.static('.'));
 
-app.use('/', express.static('.'));
-
-var tasks = [
-        {
-            id: 1,
-            text: 'task 1 text'
-        },
-        {
-            id: 2,
-
-            text: 'task 2 text'
-        }
-];
-var comments = [
-    {
-        id: 1,
-        task_id: 1,
-        user: 'user 1',
-        text: 'com 1 text'
-    },
-    {
-        id: 2,
-        task_id: 1,
-        user: 'user 1',
-        text: 'com 2 text'
-    },
-    {
-        id: 3,
-        task_id: 2,
-        user: 'user 1',
-        text: 'comm 3 text'
-    },
-    {
-        id: 4,
-        task_id: 2,
-        user: 'user 1',
-        text: 'com 4 text'
-    }
-];
+var Task = require('./server/models/Tasks');
+var Comment = require('./server/models/Comments');
 
 app.get('/api/tasks', function (req, res) {
-    _.each(tasks, function(task) {
-        var commentsCount = _.filter(comments, function (comment) {
-            return comment.task_id == task.id
-        })
-
-        task.commentsCount = commentsCount.length;
-
-    });
-
-    res.json(tasks);
-
-});
-
-app.get('/api/tasks/:taskId', function (req, res) {
-    var task = _.find(tasks, function (task) {
-        return task.id == req.params.taskId
+    Task.find({}, function (err, tasks) {
+        res.send(tasks);
     })
-    res.json(task);
-});
-
-app.get('/api/tasks/:taskId/comments/:commentId', function (req, res) {
-    var comment = _.find(comments, function (comment) {
-        return comment.id == req.params.commentId
-    })
-    res.json(comment);
-});
-
-app.get('/api/tasks/:taskId/comments', function (req, res) {
-    var taskComments = _.filter(comments, function (comment) {
-        return comment.task_id == req.params.taskId
-    })
-    res.json(taskComments);
 });
 
 app.post('/api/tasks', function (req, res) {
-    var task = {id: Math.random()};
+    var task = new Task();
+
     task.text = req.body.text;
-    tasks.push(task)
-    res.json(task);
+
+    task.save(function (err, task) {
+        res.status(201).json(task);
+    })
 });
 
-app.post('/api/tasks/:taskId/comments', function (req, res) {
-    var comment = {id: Math.random()};
-    comment.task_id = req.params.taskId;
-    comment.text = req.body.text;
-    comment.user = req.body.user;
-    comments.push(comment)
-    res.json(comment);
+app.param('taskId', function (req, res, next, id) {
+    Task.findById(id, function (err, task) {
+        if (task) {
+            req.Task = task;
+        } else {
+            return res.status(404).send()
+        }
+
+        next();
+    });
+});
+
+app.get('/api/tasks/:taskId', function (req, res) {
+    res.send(req.Task);
 });
 
 app.put('/api/tasks/:taskId', function (req, res) {
-   var task = _.find(tasks, function (task) {
-        return task.id == req.params.taskId
-    })
-    task.text = req.body.text;
-    console.log(task);
-    res.json(task)
-});
+    req.Task.text = req.body.text;
 
-app.put('/api/tasks/:taskId/comments/:commentId', function (req, res) {
-   var comment = _.find(comments, function (comment) {
-        return comment.id == req.params.commentId
+    req.Task.save(function (err, task) {
+
+        res.json(task);
+
     })
-    comment.text = req.body.text;
-    comment.user = req.body.user;
-    console.log(comment);
-    res.json(comment)
 });
 
 app.delete('/api/tasks/:taskId', function (req, res) {
-    _.remove(tasks, function(task){
-        return task.id == req.params.taskId
+    req.Task.remove(function (err, task) {
+        res.status(200).json(task);
     })
-    res.status(200).send();
 });
 
-app.delete('/api/tasks/:taskId/comments/:commentId', function (req, res) {
-    _.remove(comments, function(comment){
-        return comment.id == req.params.commentId
+app.get("/api/tasks/:taskId/comments", function (req, res, next) {
+    Comment.find({taskId: req.Task._id}, function (err, comments) {
+        if (err) {
+            return next(err)
+        }
+        res.json(comments)
     })
-    res.status(200).send();
 });
 
+app.post("/api/tasks/:taskId/comments", function (req, res, next) {
+    var comment = new Comment();
 
+    comment.taskId = req.Task
+    comment.text = req.body.text;
+    comment.user = req.body.user;
+    comment.save(function (err, comment) {
+        if (err) {
+            return next(err)
+        }
+        res.json(comment)
 
+    });
+});
 
+app.param('commentId', function (req, res, next, id) {
+    Comment.findById(id, function (err, comment) {
+        if (err) {
+            return next(err)
+        }
+        if (comment) {
+            req.Comment = comment
+        } else {
+            return res.status(404).send()
+        }
 
-var server = app.listen(3000, function () {
+        next();
+    })
+});
 
+app.put("/api/tasks/:taskId/comments/:commentId", function (req, res, next) {
+
+    req.Comment.text = req.body.text;
+    req.Comment.user = req.body.user;
+    req.Comment.save(function (err, comment) {
+        if (err) {
+            return next(err)
+        }
+        res.json(comment)
+    })
+
+});
+
+app.get("/api/tasks/:taskId/comments/:commentId", function (req, res) {
+    res.json(req.Comment)
+});
+
+app.delete("/api/tasks/:taskId/comments/:commentId", function (req, res) {
+    req.Comment.remove(function (err, comment) {
+        if (err) {
+            return next(err)
+        }
+        res.status(200).json(comment)
+    })
+});
+
+var server = app.listen(4000, function () {
     var host = server.address().address;
     var port = server.address().port;
-
-    console.log('Example app listening at http://%s:%s', host, port)
-
+    console.log('App listening at http://%s:%s', host, port);
 });

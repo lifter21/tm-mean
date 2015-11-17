@@ -1,25 +1,20 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Add task</h3>
+        <div class="col-md-10">
+            <form  class="form-horizontal" role="form" ng-submit="save()">
+                <div class="form-group">
+                    <legend>Add Comment</legend>
                 </div>
-                <div class="panel-body">
-                    <div class="task-inputs">
-                        <form class="form-horizontal" role="form" ng-submit="save()">
-                            <div class="form-group text-center">
-                                <input type="text" class="form-control task-input" autofocus placeholder="User name"
-                                       ng-model="comment.user"><br/>
-                                <input type="text" class="form-control task-input" placeholder="comment text"
-                                       autocomplete="off"  ng-model="comment.text"><br/>
-                                <button class="btn btn-primary">Submit</button>
-                                <a class="btn btn-default" ui-sref="task-comments({taskId:  taskID})">Cancel</a>
-                            </div>
-                        </form>
+                <div class="form-group">
+                    <input ng-model="comment.user" type="text" name="user" class="form-control" autofocus required="required" placeholder="user name..." />
+                    <input ng-model="comment.text" type="text" name="text" class="form-control"  autocomplete="off" required="required" placeholder="comment text..."/>
+
+                    <div class="">
+                        <button type="submit" class="btn btn-primary">Add comment</button>
+                        <button class="btn btn-default" ui-sref="task-comments({taskId: taskId})">Back</button>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>

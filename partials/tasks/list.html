@@ -1,0 +1,15 @@
+<ul class="list-group">
+    <li class="list-group-item">
+        <button class="btn btn-success" ui-sref="task-new">Create Task</button>
+    </li>
+	<li class="list-group-item" ng-repeat="task in tasks">
+        <p>
+            <span> {{$index + 1}}. {{ task.text }}    </span>
+            <span style="float: right">
+                <a href="" ui-sref="task-edit({taskId: task._id})">Edit</a>&nbsp;
+                <a href="" ng-click="remove(task)">Remove</a>&nbsp;
+                <a href="" ui-sref="task-comments({taskId: task._id})">Comments</a>
+            </span>
+        </p>
+    </li>
+</ul>

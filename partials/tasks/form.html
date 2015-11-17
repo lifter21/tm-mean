@@ -1,23 +1,19 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Add task</h3>
+        <div class="col-md-10">
+            <form  class="form-horizontal" role="form" ng-submit="save()">
+                <div class="form-group">
+                    <legend>Add task</legend>
                 </div>
-                <div class="panel-body">
-                    <div class="task-inputs">
-                        <form class="form-horizontal" role="form" ng-submit="save()">
-                            <div class="form-group text-center">
-                                <input type="text" name="name" class="form-control task-input" placeholder="task text"
-                                       autocomplete="off" autofocus ng-model="task.text"><br/>
-                                <button class="btn btn-primary">Submit</button>
-                                <a class="btn btn-default" ui-sref="tasks">Cancel</a>
-                            </div>
-                        </form>
+                <div class="form-group">
+                    <input ng-model="task.text" type="text" name="name" class="form-control" autofocus autocomplete="off" required="required" >
+
+                    <div class="">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-default" ui-sref="tasks">Back</button>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
