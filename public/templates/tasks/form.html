@@ -1,0 +1,12 @@
+<form role="form" ng-submit="save()">
+    <legend>Add task</legend>
+
+    <div class="form-group">
+        <label for="">Add task</label>
+        <input type="text" class="form-control" name="" id="" placeholder="Task text..." autofocus autocomplete="off" ,
+               ng-model="task.text">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="button" class="btn btn-default" ui-sref="tasks">Back</button>
+</form>

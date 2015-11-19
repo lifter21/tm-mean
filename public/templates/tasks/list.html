@@ -1,0 +1,12 @@
+<ul class="list-group" style="margin-top: 70px;">
+    <!--<pre>{{tasks|json}}</pre>-->
+    <li class="list-group-item">
+        <a ui-sref="task-new" class="btn btn-success">New Task</a>
+    </li>
+    <li class="list-group-item" ng-repeat="task in tasks">
+        <span>{{ $index + 1 }}. {{ task.text }}</span>
+        <a href="" ui-sref="task-edit({taskId: task._id})">Edit</a>&nbsp;
+        <a href="" ng-click="remove(task)">Remove</a>&nbsp;
+        <a href="" ui-sref="task-comments({taskId: task._id})">Comments</a>
+    </li>
+</ul>
