@@ -11,7 +11,7 @@ angular.module('TaskManager')
         $scope.comments = Comment.query({taskId: $state.params.taskId})
 
         $scope.remove = function (comment) {
-            comment.$delete({taskId: comment.taskId, commentId: comment._id}).then(function () {
+            comment.$delete({taskId: comment.taskId, commentId: comment._id}, function () {
                 $scope.comments = Comment.query({taskId: $state.params.taskId})
             })
         }
@@ -23,18 +23,26 @@ angular.module('TaskManager')
         }
 
         $scope.save = function () {
+            if (!$scope.comment.text && !$scope.comment.user) {
+                return $scope.formErrors = ['text is required', 'user is required']
+            }
+
             if ($scope.comment._id) {
-                if ($scope.comment.text !== '' && $scope.comment.user !== '') {
-                    $scope.comment.$update({taskId: $scope.taskId, commentId: $scope.comment._id}).then(function () {
-                        $state.go('task-comments', {taskId: $scope.taskId})
-                    })
-                }
+
+                $scope.comment.$update({taskId: $scope.taskId, commentId: $scope.comment._id}, function () {
+                    $state.go('task-comments', {taskId: $scope.taskId})
+                }, function (err) {
+                    $scope.formErrors = err.data
+                })
+
             } else {
-                if ($scope.comment.text !== '' && $scope.comment.user !== '') {
-                    $scope.comment.$save({taskId: $scope.taskId}).then(function () {
-                        $state.go('task-comments', {taskId: $scope.taskId})
-                    })
-                }
+
+                $scope.comment.$save({taskId: $scope.taskId}, function () {
+                    $state.go('task-comments', {taskId: $scope.taskId})
+                }, function (err) {
+                    $scope.formErrors = err.data;
+                })
+
             }
         }
     });

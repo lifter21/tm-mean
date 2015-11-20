@@ -10,7 +10,7 @@ angular.module('TaskManager')
         $scope.tasks = Task.query();
 
         $scope.remove = function (task) {
-            task.$delete().then(function () {
+            task.$delete(function () {
                 $scope.tasks = Task.query()
             })
         };
@@ -21,18 +21,25 @@ angular.module('TaskManager')
             $scope.task = Task.get({taskId: $state.params.taskId})
         }
         $scope.save = function () {
+            if (!$scope.task.text) {
+                return $scope.formErrors = ['text is required']
+            }
             if (!$scope.task._id) {
-                if ($scope.task.text !== '') {
-                    $scope.task.$save().then(function () {
-                        $state.go('tasks')
-                    })
-                }
+                //console.log(!$scope.task._id);
+                $scope.task.$save(function () {
+                    $state.go('tasks')
+                }, function (err) {
+                    $scope.formErrors = err.data;
+                })
+
             } else {
-                if ($scope.task.text !== '') {
-                    $scope.task.$update({taskId: $scope.task._id}).then(function () {
-                        $state.go('tasks')
-                    })
-                }
+
+                $scope.task.$update({taskId: $scope.task._id}, function () {
+                    $state.go('tasks')
+                }, function (err) {
+                    $scope.formErrors = err.data;
+                })
+
             }
         }
     });

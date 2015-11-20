@@ -3,8 +3,11 @@
 
     <div class="form-group">
         <label for="">Add task</label>
-        <input type="text" class="form-control" name="" id="" placeholder="Task text..." autofocus autocomplete="off" ,
+        <input type="text" class="form-control" name="" id="" placeholder="Task text..." autofocus autocomplete="off"
+               required
                ng-model="task.text">
+
+        <p ng-if="formErrors" class="text-danger" ng-repeat="error in formErrors">{{error}}</p>
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>

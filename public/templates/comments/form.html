@@ -3,14 +3,16 @@
 
     <div class="form-group">
         <label for="">Add user</label>
-        <input type="text" class="form-control" name="" id="" placeholder="Comment user..." autofocus,
+        <input type="text" class="form-control" name="" id="" placeholder="Comment user..." autofocus required
                ng-model="comment.user">
+
     </div>
     <div class="form-group">
         <label for="">Add text</label>
-        <input type="text" class="form-control" name="" id="" placeholder="Comment text..." autocomplete="off" ,
-               ng-model="comment.text">
+        <input type="text" class="form-control" name="" id="" placeholder="Comment text..." autocomplete="off"
+               required ng-model="comment.text">
     </div>
+    <p ng-if="formErrors" class="text-danger" ng-repeat="error in formErrors">{{error}}</p>
 
     <button type="submit" class="btn btn-primary">Submit</button>
     <button type="button" class="btn btn-default" ui-sref="task-comments({taskId: taskId})">Back to comments</button>
