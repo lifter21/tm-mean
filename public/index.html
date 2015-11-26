@@ -10,6 +10,9 @@
     <script src="js/taskManager.js"></script>
     <script src="js/tasks/tasksController.js"></script>
     <script src="js/comments/commentsController.js"></script>
+    <script src="js/auth/authController.js"></script>
+    <script src="js/auth/authService.js"></script>
+    <script src="js/users/usersController.js"></script>
 
     <meta charset="UTF-8">
     <title>Task Manager</title>
@@ -20,18 +23,26 @@
         <a class="navbar-brand" href="">T-Man</a>
         <ul class="nav navbar-nav">
             <li>
-                <a href="">Home</a>
+                <a ui-sref="home">Home</a>
             </li>
             <li>
-                <a ui-sref="tasks">Tasks</a>
+                <a ui-sref="tasks" ng-if="AuthService.hasUser()">Tasks</a>
             </li>
+
+        </ul>
+        <ul class="navbar-right" style="margin: 15px 50px;">
+            <span ng-if="AuthService.hasUser()">{{AuthService.user.name}}</span>
+
+            <a class="btn btn-success" ng-if="!AuthService.hasUser()" ui-sref="login">Sign in</a>
+            <a class="btn btn-default" ng-if="!AuthService.hasUser()" ui-sref="user-registration">Sign up</a>
+            <a class="btn btn-default" ng-if="AuthService.hasUser()" ui-sref="logout">Sign out</a>
         </ul>
     </nav>
 </nav>
 <container>
     <div class="container">
         <div class="row">
-            <div class="col-md-10 col-md-offset-1" ui-view>
+            <div class="col-md-10 col-md-offset-1" style="padding-top: 70px;" ui-view>
 
             </div>
         </div>

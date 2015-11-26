@@ -7,7 +7,8 @@ var Schema = mongoose.Schema;
 var Comment = require('./comments');
 
 var taskSchema = new Schema({
-    text: String
+    text: String,
+    user: {type: Schema.Types.ObjectId, ref: 'Users'}
 });
 
 taskSchema.post('remove', function (task) {

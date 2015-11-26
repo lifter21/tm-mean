@@ -4,6 +4,11 @@ angular.module('TaskManager', ['ui.router', 'ngResource'])
         $urlRouterProvider.otherwise("/");
 
         $stateProvider
+            .state('home', {
+                url: '/',
+                //controller: 'TasksController',
+                templateUrl: '../templates/home.html'
+            })
             .state('tasks', {
                 url: '/tasks',
                 controller: 'TasksController',
@@ -33,7 +38,25 @@ angular.module('TaskManager', ['ui.router', 'ngResource'])
                 url: '/tasks/:taskId/comments/:commentId/edit',
                 controller: 'CommentsController',
                 templateUrl: '../templates/comments/form.html'
+            })
+            .state('user-registration', {
+                url: '/sign-up',
+                controller: 'UsersController',
+                templateUrl: '../templates/users/form.html'
+            })
+            .state('login', {
+                url: '/login',
+                controller: 'LoginController',
+                templateUrl: '../templates/auth/loginForm.html'
+            })
+            .state('logout', {
+                url: '/logout',
+                controller: 'LogoutController'
             });
 
+    })
+    .run(function ($rootScope, AuthService) {
+        $rootScope.AuthService = AuthService;
+        $rootScope.AuthService.load();
     })
 ;

@@ -1,0 +1,24 @@
+<form role="form">
+    <legend>New user registration</legend>
+
+    <div class="form-group">
+        <label for="userName">User name</label>
+        <input type="text" class="form-control" name="userName" placeholder="User name..." ng-model="form.name">
+    </div>
+    <div class="form-group">
+        <label for="userEmail">E-mail</label>
+        <input type="email" class="form-control" name="userEmail" placeholder="Email..." ng-model="form.email">
+    </div>
+    <div class="form-group">
+        <label for="userPass">Password</label>
+        <input type="password" class="form-control" name="userPass" placeholder="Password..." ng-model="form.password">
+    </div>
+    <div class="form-group">
+        <label for="userPassConfirmation">Password confirmation</label>
+        <input type="password" class="form-control" name="userPassConfirmation" placeholder="Password confirmation..."
+               ng-model="form.passwordConf">
+    </div>
+
+    <button type="submit" class="btn btn-success">Submit</button>
+    <a href="" class="btn btn-default" ui-sref="home">Cancel</a>
+</form>

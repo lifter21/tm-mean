@@ -1,9 +1,43 @@
 var Task = require('../models/tasks');
 var Comment = require('../models/comments');
+var User = require('../models/users');
+
 var form = require('express-form');
 var field = form.field;
 
+
 module.exports = function (app) {
+
+    app.use(function (req, res, next) {
+        if (req.session.userId) {
+            User.findById(req.session.userId, '-password', function (err, user) {
+                if (err) {
+                    return next(err)
+                }
+
+                if (!user) {
+                    delete req.session.userId;
+                    return next();
+                }
+
+                req.user = user;
+                next();
+            })
+        } else {
+            next();
+        }
+    });
+
+    var isAuth = function (req, res, next) {
+        if (req.user) {
+            next();
+        } else {
+            res.status(401).send();
+        }
+    };
+
+    app.use('/api/tasks', isAuth);
+    app.use('/api/me', isAuth);
 
     var taksForm = form(
         field("text").required()
@@ -14,7 +48,7 @@ module.exports = function (app) {
     );
 
     app.param('taskId', function (req, res, next, id) {
-        Task.findById(id, function (err, task) {
+        Task.findOne({_id: id, user: req.user}, function (err, task) {
             if (err) {
                 return next(err);
             }
@@ -28,8 +62,7 @@ module.exports = function (app) {
     });
 
     app.get('/api/tasks', function (req, res, next) {
-
-        Task.find({}, function (err, tasks) {
+        Task.find({user: req.user}, function (err, tasks) {
             if (err) {
                 return next(err);
             }
@@ -38,10 +71,9 @@ module.exports = function (app) {
         });
     });
 
-
     app.post('/api/tasks', taksForm, function (req, res, next) {
         if (req.form.isValid) {
-            var newTask = new Task({text: req.body.text})
+            var newTask = new Task({text: req.body.text, user: req.user})
             newTask.save(function (err, task) {
                 if (err) {
                     return next(err);
@@ -72,10 +104,9 @@ module.exports = function (app) {
 
         //Task.update(, );
     });
+
     app.delete('/api/tasks/:taskId', function (req, res, next) {
         req.Task.remove(function (err, task) {
-            //console.log(task);
-            //console.log();
             if (err) {
                 return next(err);
             }
@@ -92,11 +123,10 @@ module.exports = function (app) {
         //Task.remove(, );
     });
 
-
     ////////////////// Comments  ////////////////////////
 
     app.param('commentId', function (req, res, next, id) {
-        Comment.findById(id, function (err, comment) {
+        Comment.findOne({_id: id, task: req.Task}, function (err, comment) {
             if (err) {
                 return next(err);
             }
@@ -118,6 +148,7 @@ module.exports = function (app) {
             res.status(200).json(comments);
         });
     });
+
     app.post('/api/tasks/:taskId/comments', commentForm, function (req, res, next) {
         if (req.form.isValid) {
             var newComment = new Comment({taskId: req.Task._id, text: req.body.text, user: req.body.user});
@@ -128,7 +159,7 @@ module.exports = function (app) {
                 res.status(200).json(comment);
             });
         } else {
-            res.status(400).json(req.form.errors)
+            res.status(400).json(req.form.getErrors())
         }
         //Comment.create();
     });
@@ -139,8 +170,8 @@ module.exports = function (app) {
 
     app.put('/api/tasks/:taskId/comments/:commentId', commentForm, function (req, res, next) {
         if (req.form.isValid) {
-            req.Comment.text = req.body.text
-            req.Comment.user = req.body.user
+            req.Comment.text = req.body.text;
+            req.Comment.user = req.body.user;
             req.Comment.save(function (err, comment) {
                 if (err) {
                     return next(err);
@@ -148,9 +179,10 @@ module.exports = function (app) {
                 res.status(200).json(comment);
             })
         } else {
-            res.status(400).json(req.form.errors)
+            res.status(400).json(req.form.getErrors())
         }
     });
+
     app.delete('/api/tasks/:taskId/comments/:commentId', function (req, res, next) {
         req.Comment.remove(function (err, comment) {
             if (err) {
@@ -158,8 +190,39 @@ module.exports = function (app) {
             }
             res.status(200).json(comment);
         })
-        //Comment.remove(req.Comment, );
+    });
+
+    app.post('/api/login', function (req, res, next) {
+        var userName = req.body.username;
+        var userPassword = req.body.password;
+        User.findOne({name: userName}, function (err, user) {
+
+            if (err) {
+                return next(err)
+            }
+
+            if (user && user.password === userPassword) {
+                req.session.userId = user._id;
+                user.password = undefined;
+                res.json(user);
+            } else {
+                res.status(400).send()
+            }
+
+        })
+    });
+
+    app.post('/api/logout', function (req, res, next) {
+
+        req.session.destroy(function (err) {
+            if (err) {
+                return next(err)
+            }
+            res.status(200).send()
+        });
+    });
+
+    app.get('/api/me', function (req, res, next) {
+        res.json(req.user)
     });
 };
-
-
