@@ -1,0 +1,19 @@
+{
+  "name": "1_task_manager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/app.js",
+  "scripts": {
+    "start": "nodemon -L server/app.js -w server/app.js -w server/routes.js -i public/lib/ -i node_modules/ ",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "express": "^4.13.3",
+    "express-form": "^0.12.4",
+    "express-session": "^1.12.1",
+    "mongoose": "^4.2.8"
+  }
+}
