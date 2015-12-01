@@ -1,5 +1,8 @@
 {
-  "name": "TaskManager",
+  "name": "1_task_manager",
+  "authors": [
+    "Alexander Bondarenko <bondarenko.alexander.13@gmail.com>"
+  ],
   "description": "",
   "main": "",
   "moduleType": [],
@@ -9,13 +12,14 @@
     "**/.*",
     "node_modules",
     "bower_components",
+    "public/lib/",
     "test",
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.4.7",
+    "bootstrap": "~3.3.6",
+    "angular": "~1.4.8",
     "angular-ui-router": "ui-router#~0.2.15",
-    "bootstrap": "~3.3.5",
-    "angular-resource": "~1.4.7"
+    "angular-resource": "~1.4.8"
   }
 }

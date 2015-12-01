@@ -4,6 +4,7 @@
     <option name="serverConfigurations">
       <list>
         <ServerConfiguration>
+          <option name="connectOnIdeStartup" value="true" />
           <option name="label" value="192.168.10.20" />
           <option name="serverUrls">
             <list>

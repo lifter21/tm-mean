@@ -1,53 +1,51 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" ng-app="TaskManager">
 <head>
+    <!--<base href="/"/>-->
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css"/>
-
+    <meta charset="UTF-8">
     <script src="lib/angular/angular.min.js"></script>
     <script src="lib/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="lib/angular-resource/angular-resource.min.js"></script>
-
-    <script src="js/taskManager.js"></script>
-    <script src="js/tasks/tasksController.js"></script>
-    <script src="js/comments/commentsController.js"></script>
-    <script src="js/auth/authController.js"></script>
-    <script src="js/auth/authService.js"></script>
-    <script src="js/users/usersController.js"></script>
-
-    <meta charset="UTF-8">
-    <title>Task Manager</title>
+    <script src="/task-manager/taskManager.js"></script>
+    <script src="./task-manager/auth/authService.js"></script>
+    <script src="./task-manager/auth/authControllers.js"></script>
+    <!--<script src="task-manager/users/usersController.js"></script>-->
+    <!--<script src="task-manager/tasks/tasksController.js"></script>-->
+    <!--<script src="task-manager/comments/commentsController.js"></script>-->
+    <title>TM</title>
 </head>
 <body>
-<nav>
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <a class="navbar-brand" href="">T-Man</a>
-        <ul class="nav navbar-nav">
-            <li>
-                <a ui-sref="home">Home</a>
-            </li>
-            <li>
-                <a ui-sref="tasks" ng-if="AuthService.hasUser()">Tasks</a>
-            </li>
+<div class="container">
+    <div class="row">
 
-        </ul>
-        <ul class="navbar-right" style="margin: 15px 50px;">
-            <span ng-if="AuthService.hasUser()">{{AuthService.user.name}}</span>
-
-            <a class="btn btn-success" ng-if="!AuthService.hasUser()" ui-sref="login">Sign in</a>
-            <a class="btn btn-default" ng-if="!AuthService.hasUser()" ui-sref="user-registration">Sign up</a>
-            <a class="btn btn-default" ng-if="AuthService.hasUser()" ui-sref="logout">Sign out</a>
-        </ul>
-    </nav>
-</nav>
-<container>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1" style="padding-top: 70px;" ui-view>
-
-            </div>
-        </div>
+        <nav class="navbar navbar-fixed-top">
+            <a class="navbar-brand" href="#">Title</a>
+            <ul class="nav navbar-nav">
+                <li class="">
+                    <a ui-sref="home">Home</a>
+                </li>
+                <!--<li>-->
+                <!--<a ui-sref="tasks">Tasks</a>-->
+                <!--</li>-->
+                <li class="pull-right">
+                    <a ui-sref="logout" class="btn btn-danger" ng-if="AuthService.hasUser()">Logout</a>
+                </li>
+                <li class="pull-right">
+                    <a ui-sref="login" class="btn btn-default" ng-if="!AuthService.hasUser()">Login</a>
+                </li>
+            </ul>
+        </nav>
     </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-lg-offset-1" ui-view>
+        </div>
 
-</container>
+    </div>
+</div>
+
+<pre>{{AuthService}}</pre>
 </body>
 </html>
