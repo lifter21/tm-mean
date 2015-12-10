@@ -1,12 +1,28 @@
-<form action="" method="post" class="form-horizontal" role="form">
-    <div class="form-group">
-        <legend>Form Title</legend>
-    </div>
-
-
-    <div class="form-group">
-        <div class="col-sm-10 col-sm-offset-2">
-            <button type="submit" class="btn btn-primary">Submit</button>
+<div class="col-md-6 col-lg-offset-3">
+    <form role="form" ng-submit="register()">
+        <legend>New user registration...</legend>
+        <div class="form-group">
+            <label for="name">User name</label>
+            <input type="text" class="form-control" autocomplete="off" name="name" id="name" placeholder="Name..." ng-model="user.name">
+            <span class="text-danger"ng-repeat="nameError in nameErrors">{{nameError}}</span>
         </div>
-    </div>
-</form>
+        <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" class="form-control" name="email" id="email" placeholder="E-mail..." ng-model="user.email">
+            <span class="text-danger"ng-repeat="emailError in emailErrors">{{emailError}}</span>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" autocomplete="off" name="password" id="password" placeholder="Password..."ng-model="user.password">
+            <span class="text-danger"ng-repeat="passError in passErrors">{{passError}}</span>
+        </div>
+        <div class="form-group">
+            <label for="passconfirmation">Password confirmation</label>
+            <input type="password" class="form-control" name="passconfirmation" id="passconfirmation" placeholder="Password Confirmation..." ng-model="user.confirmation">
+            <span class="text-danger" ng-repeat="passConfError in passConfErrors">{{passConfError}}</span>
+        </div>
+        <!--<span>{{formErrors}}</span>-->
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>

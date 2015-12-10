@@ -1,14 +1,22 @@
 {
-  "name": "1_task_manager",
+  "name": "task-man",
   "version": "1.0.0",
   "description": "",
   "main": "server/app.js",
   "scripts": {
-    "start": "nodemon -L server/app.js -w server/app.js -w server/routes.js -i public/lib/ -i node_modules/ ",
+    "start": "nodemon -L server/app.js -w server/app.js -w server/routes.js -i public/lib/ -i node_modules/",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lifter21/tm-mean.git"
   },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lifter21/tm-mean/issues"
+  },
+  "homepage": "https://github.com/lifter21/tm-mean#readme",
   "dependencies": {
     "body-parser": "^1.14.1",
     "express": "^4.13.3",

@@ -1,0 +1,5 @@
+
+- add functionality for edit comments
+- review
+- configure session storage/saving
+

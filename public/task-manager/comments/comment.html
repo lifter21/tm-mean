@@ -1,0 +1,25 @@
+<div class="panel panel-info" style=" margin-bottom: 12px;">
+<div class="panel-heading">
+    <h3 class="panel-title">Comment</h3>
+</div>
+<div class="panel-body">
+    <ul class="list-group">
+
+        <!--<pre>{{comment | json}}</pre>-->
+        <li class="list-group-item text-info text-capitalize">Task ID: {{comment.task}}</li>
+        <li class="list-group-item text-info text-capitalize">Comment ID: {{comment._id}}</li>
+        <li class="list-group-item text-info text-capitalize">Comment: {{comment.text}}</li>
+        <li class="list-group-item text-info text-capitalize">added by: {{comment.user.name}}</li>
+        <li class="list-group-item text-info text-capitalize">Other attr...:</li>
+    </ul>
+    <ul class="list-group">
+        <li class="list-group-item text-primary">
+            <a class="btn btn-success "
+               ui-sref="comment.edit({commentId: comment._id, taskId: comment.task})">Edit</a>
+            <a class="btn btn-default" ui-sref="task({taskId: task._id})">Back to task</a>
+            <a class="btn btn-danger  pull-right" ng-click="remove(comment)">remove</a>
+        </li>
+    </ul>
+
+</div>
+</div>

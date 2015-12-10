@@ -1,13 +1,10 @@
 {
-  "name": "1_task_manager",
-  "authors": [
-    "Alexander Bondarenko <bondarenko.alexander.13@gmail.com>"
-  ],
+  "name": "task-man",
   "description": "",
-  "main": "",
+  "main": "public/index.html",
+  "license": "ISC",
+  "homepage": "https://github.com/lifter21/tm-mean",
   "moduleType": [],
-  "license": "MIT",
-  "homepage": "",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -19,7 +16,7 @@
   "dependencies": {
     "bootstrap": "~3.3.6",
     "angular": "~1.4.8",
-    "angular-ui-router": "ui-router#~0.2.15",
+    "angular-ui-router": "~0.2.15",
     "angular-resource": "~1.4.8"
   }
 }

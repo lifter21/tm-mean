@@ -1,6 +1,7 @@
 angular.module('TaskManager', ['ui.router', 'ngResource'])
     .config(function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/');
+
         $stateProvider
             .state('home', {
                 url: '/',
@@ -11,56 +12,102 @@ angular.module('TaskManager', ['ui.router', 'ngResource'])
                 controller: 'LoginController',
                 templateUrl: 'task-manager/auth/loginForm.html'
             })
+            .state('sign-in', {
+                url: '/registration',
+                controller: 'UsersController',
+                templateUrl: 'task-manager/users/registrationForm.html'
+            })
             .state('logout', {
                 url: '/logout',
                 controller: 'LogoutController'
             })
-        //.state('registration', {
-        //    url: '/sign-up',
-        //    controller: 'UserRegistrationController',
-        //    templateUrl: 'task-manager/users/registrationForm.html'
-        //})
-        //.state('user', {
-        //    url: '/users/:userId',
-        //    controller: 'UsersController'
-        //})
-        //.state('tasks', {
-        //    url: '/tasks',
-        //    controller: 'TasksController',
-        //    templateUrl: 'task-manager/tasks/list.html'
-        //})
-        //.state('tasks.new', {
-        //    url: '/new',
-        //    controller: 'TasksController',
-        //    templateUrl: 'task-manager/tasks/form.html'
-        //})
-        //.state('tasks.task', {
-        //    url: '/:taskId',
-        //    controller: 'TasksController',
-        //    templateUrl: 'task-manager/tasks/list.html'
-        //})
-        //.state('tasks.task.edit', {
-        //    url: '/edit',
-        //    controller: 'TasksController',
-        //    templateUrl: 'task-manager/tasks/form.html'
-        //})
-        //.state('tasks.task.comments', {
-        //    url: '/comments',
-        //    controller: 'CommentsController',
-        //    templateUrl: 'task-manager/comments/list.html'
-        //})
-        //.state('tasks.task.comments.new', {
-        //    url: '/new',
-        //    controller: 'CommentsController',
-        //    templateUrl: 'task-manager/comments/form.html'
-        //})
-        //.state('tasks.task.comments.comment.edit', {
-        //    url: '/:commentId/edit',
-        //    controller: 'CommentsController',
-        //    templateUrl: 'task-manager/comments/form.html'
-        //});
+            .state('tasks', {
+                url: '/tasks',
+                controller: 'TasksController',
+                templateUrl: 'task-manager/tasks/list.html'
+            })
+            .state('tasks.new', {
+                url: '/new',
+                views: {
+                    '@': {
+                        controller: 'TasksController',
+                        templateUrl: 'task-manager/tasks/form.html'
+                    }
+                }
+            })
+            .state('task', {
+
+                url: '/tasks/:taskId',
+                views: {
+                    '@': {
+                        //controller: 'TaskController',
+                        templateUrl: 'task-manager/tasks/task.html'
+                    },
+                    "comments@task" : {
+                        controller: 'CommentsController',
+                        templateUrl: 'task-manager/comments/list.html'
+                    },
+                    "details@task" : {
+                        controller: 'TaskController',
+                        templateUrl: 'task-manager/tasks/task.details.html'
+                    }
+                }
+            })
+            .state('task.edit', {
+                url: '/edit',
+                views: {
+                    '@': {
+                        controller: 'TasksController',
+                        templateUrl: 'task-manager/tasks/form.html'
+                    }
+                }
+            })
+            .state('comments', {
+                url: '/tasks/:taskId/comments',
+                views: {
+                    '@': {
+                        controller: 'TaskController',
+                        templateUrl: 'task-manager/tasks/task.html'
+                    },
+                    'comments@comments': {
+                        controller: 'CommentsController',
+                        templateUrl: 'task-manager/comments/list.html'
+                    },
+                    "details@comments" : {
+                        controller: 'TaskController',
+                        templateUrl: 'task-manager/tasks/task.text.html'
+                    }
+                }
+            })
+            .state('comments.new', {
+                url: '/new',
+                views: {
+                    '@': {
+                        controller: 'CommentsController',
+                        templateUrl: 'task-manager/comments/form.html'
+                    }
+                }
+            })
+            .state('comment', {
+                url: '/tasks/:taskId/comments/:commentId',
+                views: {
+                    '@': {
+                        controller: 'CommentsController',
+                        templateUrl: 'task-manager/comments/comment.html'
+                    }
+                }
+            })
+            .state('comment.edit', {
+                url: '/edit',
+                views: {
+                    '@': {
+                        controller: 'CommentsController',
+                        templateUrl: 'task-manager/comments/form.html'
+                    }
+                }
+            });
     })
-    .run(function ($rootScope, $state, AuthService) {
+    .run(function ($rootScope, AuthService) {
         $rootScope.AuthService = AuthService;
         $rootScope.AuthService.me();
     });

@@ -1,0 +1,14 @@
+<div class="col-md-7 col-lg-offset-2">
+    <form  role="form" ng-submit="save()" >
+        <legend>{{task.text }}: comment</legend>
+
+        <div class="form-group">
+            <label for="">Comment:</label>
+            <input type="text" required class="form-control" name="" id="" placeholder="text..." ng-model="comment.text">
+            <span class="text-danger" ng-repeat="error in commentErrors">{{error}}</span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a class="btn btn-default" history-back>Back</a>
+    </form>
+</div>

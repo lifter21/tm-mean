@@ -1,0 +1,24 @@
+<div class="col-md-8 col-md-offset-2" ng-if="AuthService.hasUser()">
+    <ul class="list-group">
+        <li class="list-group-item ">
+            <a type="button" class="btn btn-default " ui-sref="tasks.new">New Task</a>
+        </li>
+    </ul>
+    <legend>Current task list...</legend>
+
+    <ul class="list-group">
+
+        <span class="list-group-item" ng-if="noTasksMessage">{{noTasksMessage}}</span>
+
+        <li class="list-group-item" ng-repeat="task in tasks">
+            <p>
+                <span class="text-info text-capitalize">{{$index+1}}. {{task.text}}</span>
+                <a class="pull-right text-danger" style="margin-right:10px; margin-left:5px;" ng-click="remove(task)">remove</a>
+                <a class="pull-right" style="margin-right:10px; margin-left:5px;" ui-sref="task({taskId: task._id})">Details</a>
+                <a class="pull-right" style="margin-right:10px; margin-left:5px;" ui-sref="task.edit({taskId: task._id})">Edit</a>
+            </p>
+        </li>
+    </ul>
+    <div ui-view></div>
+
+</div>

@@ -1,0 +1,22 @@
+<div class="panel panel-success">
+	  <div class="panel-heading">
+			<h3 class="panel-title">Task details..</h3>
+	  </div>
+	  <div class="panel-body">
+			<ul class="list-group">
+				<li class="list-group-item text-primary">ToDo: <h3>{{task.text}} </h3></li>
+				<li class="list-group-item">ID: {{task._id}} </li>
+				<li class="list-group-item">User: </li>
+				<li class="list-group-item">Created at: </li>
+				<li class="list-group-item">Status: </li>
+				<li class="list-group-item">Comments: {{task.commentsCount}}</li>
+			</ul>
+          <ul class="list-group">
+              <li class="list-group-item text-primary">
+                  <a class="btn btn-success" ui-sref="task.edit({taskId: task._id})">edit</a>
+                  <a class="btn btn-default" ui-sref="tasks">Back to task list</a>
+                  <button class="btn btn-danger pull-right" ng-click="remove(task)">remove</button>
+              </li>
+          </ul>
+	  </div>
+</div>

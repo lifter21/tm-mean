@@ -1,0 +1,13 @@
+<div class="col-md-8 col-lg-offset-2" ng-if="AuthService.hasUser()">
+
+    <div class="row">
+        <div class="col-md-8">{{}}</div>
+        <div class="col-md-12" ui-view="details"></div>
+    </div>
+
+    <div ui-view="comments">
+
+    </div>
+
+</div>
+
