@@ -4,8 +4,8 @@
 
         <div class="form-group">
             <label for="tasktext">Task text</label>
-            <input type="text" class="form-control" name="tasktext" id="tasktext" placeholder="Task text..."
-                   ng-model="task.text" autocomplete="off">
+            <textarea cols="4" class="form-control" name="tasktext" id="tasktext" placeholder="Task text..."
+                   ng-model="task.text" autocomplete="off"/>
             <span class="text-danger" ng-repeat="taskTextError in taskTextErrors">{{taskTextError}}</span>
         </div>
         <!--<div class="form-group">-->

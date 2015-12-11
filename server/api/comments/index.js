@@ -10,7 +10,11 @@ module.exports = function (app) {
     );
 
     app.param("commentId", function (req, res, next, id) {
-        Comment.findById(id, function (err, comment) {
+        Comment
+            .findById(id)
+            .populate('user', '-password')
+            .populate('task')
+            .exec(function (err, comment) {
             if (err) {
                 return next(err);
             }
@@ -24,7 +28,8 @@ module.exports = function (app) {
     });
 
     app.get('/api/tasks/:taskId/comments', function (req, res, next) {
-        Comment.find({task: req.task})
+        Comment
+            .find({task: req.task})
             .populate('user', '-password')
             .exec(function (err, comments) {
                 if (err) {

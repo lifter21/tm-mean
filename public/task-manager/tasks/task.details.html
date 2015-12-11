@@ -6,10 +6,9 @@
 			<ul class="list-group">
 				<li class="list-group-item text-primary">ToDo: <h3>{{task.text}} </h3></li>
 				<li class="list-group-item">ID: {{task._id}} </li>
-				<li class="list-group-item">User: </li>
+				<li class="list-group-item">User: {{task.user.name}}</li>
 				<li class="list-group-item">Created at: </li>
 				<li class="list-group-item">Status: </li>
-				<li class="list-group-item">Comments: {{task.commentsCount}}</li>
 			</ul>
           <ul class="list-group">
               <li class="list-group-item text-primary">

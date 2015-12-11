@@ -1,12 +1,14 @@
 <div class="panel panel-info">
 	  <div class="panel-heading">
-			<h3 class="panel-title">Comments</h3>
+			<div class="panel-title">Comments
+          <span class="badge">{{commentsCount}}</span>
+            </div>
 	  </div>
 	  <div class="panel-body">
           <ul class="list-group">
               <div class="list-group">
                   <p class="list-group-item ">
-                      <a type="button" class="btn btn-default " ui-sref="comments.new({taskId: task._id})">Add
+                      <a type="button" class="btn btn-default " ui-sref="comments.new({taskId: taskId})">Add
                           Comment</a>
                       <a type="button" class="btn btn-default" history-back>Back</a>
                   </p>

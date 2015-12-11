@@ -13,20 +13,27 @@ module.exports = function (app) {
 
     // for all routes with task make req.Task
     app.param('taskId', function (req, res, next, id) {
-        Task.findOne({_id: id, user: req.user}, function (err, task) {
+        Task
+            .findOne({_id: id, user: req.user})
+            .populate('user', '-password')
+            .exec(function (err, task) {
             if (err) {
                 return next(err);
             }
             if (!task) {
                 return res.status(404).send();
             }
+
             req.task = task;
             next();
         });
     });
 
     app.get('/api/tasks', function (req, res, next) {
-        Task.find({user: req.user}, function (err, tasks) {
+        Task
+            .find({user: req.user})
+            //.populate('user', '-password')
+            .exec(function (err, tasks) {
             if (err) {
                 return next(err)
             }
@@ -62,7 +69,6 @@ module.exports = function (app) {
     });
 
     app.get('/api/tasks/:taskId', function (req, res) {
-        req.task.set("commentsCount", 4)
         res.json(req.task)
     });
 

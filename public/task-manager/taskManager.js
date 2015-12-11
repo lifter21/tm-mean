@@ -85,6 +85,10 @@ angular.module('TaskManager', ['ui.router', 'ngResource'])
                     '@': {
                         controller: 'CommentsController',
                         templateUrl: 'task-manager/comments/form.html'
+                    },
+                    "@comments.new" : {
+                        controller: 'TaskController',
+                        templateUrl: 'task-manager/tasks/task.text.html'
                     }
                 }
             })
@@ -103,6 +107,10 @@ angular.module('TaskManager', ['ui.router', 'ngResource'])
                     '@': {
                         controller: 'CommentsController',
                         templateUrl: 'task-manager/comments/form.html'
+                    },
+                    "@comment.edit" : {
+                        controller: 'TaskController',
+                        templateUrl: 'task-manager/tasks/task.text.html'
                     }
                 }
             });

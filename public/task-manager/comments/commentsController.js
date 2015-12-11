@@ -10,6 +10,7 @@ angular.module("TaskManager")
         if ($state.current.name === "comments" || $state.current.name === "task.comments" || $state.current.name === "task") {
             getComments();
         }
+        $scope.taskId =  $state.params.taskId;
 
         if ($state.params.commentId && $state.params.taskId) {
             Comment.get({commentId: $state.params.commentId, taskId: $state.params.taskId}).$promise
@@ -62,6 +63,7 @@ angular.module("TaskManager")
             Comment.query({taskId: $state.params.taskId}).$promise
                 .then(function (comments) {
                     $scope.comments = comments;
+                    $scope.commentsCount = comments.length;
                     if ($scope.comments.length < 1) {
                         $scope.noCommentsMessage = "There are no comments yet..."
                     } else {
