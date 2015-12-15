@@ -40,7 +40,7 @@ angular.module('TaskManager', ['ui.router', 'ngResource'])
                 url: '/tasks/:taskId',
                 views: {
                     '@': {
-                        //controller: 'TaskController',
+                        controller: 'TaskController',
                         templateUrl: 'task-manager/tasks/task.html'
                     },
                     "comments@task" : {
@@ -48,7 +48,7 @@ angular.module('TaskManager', ['ui.router', 'ngResource'])
                         templateUrl: 'task-manager/comments/list.html'
                     },
                     "details@task" : {
-                        controller: 'TaskController',
+                        controller: 'TasksController',
                         templateUrl: 'task-manager/tasks/task.details.html'
                     }
                 }

@@ -4,7 +4,7 @@
   "description": "",
   "main": "server/app.js",
   "scripts": {
-    "start": "nodemon -L server/app.js -w server/app.js -w server/routes.js -i public/lib/ -i node_modules/",
+    "start": "nodemon -L server/app.js -w server/app.js -w server/ -i public/lib/ -i node_modules/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

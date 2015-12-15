@@ -21,7 +21,7 @@ app.use(session({
 require('./routes/routes')(app);
 
 // server
-var server = app.listen(5000, function () {
+var server = app.listen(4000, function () {
     var port = server.address().port;
     console.log('Now server is running on %s port', port);
 });

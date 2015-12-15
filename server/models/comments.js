@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 var commentSchema = new Schema({
     task: {type: Schema.Types.ObjectId, ref: 'tasks'},
-    user: {type: Schema.Types.ObjectId, ref: 'users'},
+    creator: {type: Schema.Types.ObjectId, ref: 'users'},
     text: String
 });
 

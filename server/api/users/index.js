@@ -4,13 +4,13 @@ var form = require('express-form');
 var field = form.field;
 
 module.exports = function (app) {
-    /* ----- Users ----- */
+    /* ----- users ----- */
     // Me
     app.get('/api/me', function (req, res) {
         res.json(req.user)
     });
 
-    var userForm = form(
+    var UserForm = form(
         field('name').required().minLength(3)
             .custom(function (name, payload, callback) {
                 User.findOne({name: name}, '-password', function (err, user) {
@@ -20,7 +20,7 @@ module.exports = function (app) {
                     }
 
                     if (user) {
-                        return callback(new Error('User %s is already used!'));
+                        return callback(new Error('user %s is already used!'));
                     }
 
                     callback();
@@ -31,12 +31,22 @@ module.exports = function (app) {
         field('confirmation').required().equals("field::password", "confirmation is not equals to pass")
     );
 
-    app.post('/api/users', userForm, function (req, res, next) {
+
+    app.get('/api/users', function (req, res, next) {
+        User.find({}, '-password -email', function (err, users) {
+            if (err) {
+                return next(err);
+            }
+            res.json(users);
+        })
+    });
+
+    app.post('/api/users', UserForm, function (req, res, next) {
         if (req.form.isValid) {
             var user = new User({
-                name: req.body.name,
-                email: req.body.email,
-                password: req.body.password
+                name: req.form.name,
+                email: req.form.email,
+                password: req.form.password
             });
             user.save(function (err, user) {
                 if (err) {

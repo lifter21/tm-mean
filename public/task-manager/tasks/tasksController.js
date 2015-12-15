@@ -2,21 +2,31 @@ angular.module('TaskManager')
     .factory("Task", function ($resource) {
         return $resource('/api/tasks/:taskId', {"taskId": '@_id'}, {update: {method: 'PUT'}})
     })
-    .controller('TasksController', function ($scope, $state, Task) {
-        //$scope.tasks = Task.query();
+    .controller('TasksController', function ($scope, $state, Task, User) {
         getTasks();
 
 
+        var getUsers = function () {
+            User.query().$promise
+                .then(function (users) {
+                    $scope.users = users;
+                }, function (err) {
+                    console.log("Users error", err);
+                });
+        };
+
         if ($state.params.taskId) {
-            $scope.task = Task.get({taskId: $state.params.taskId})
+            $scope.task = Task.get({taskId: $state.params.taskId});
+            getUsers();
+
         } else {
             $scope.task = new Task();
+            getUsers();
         }
 
         $scope.remove = function (task) {
 
-            task.$remove().then(function (task) {
-                //$scope.tasks = Task.query();
+            task.$remove().then(function () {
                 getTasks();
             }, function (err) {
                 console.log(err);
@@ -31,7 +41,6 @@ angular.module('TaskManager')
 
                 if ($scope.task._id) {
                     $scope.task.$update().then(function () {
-                        //$state.go('tasks')
                         $state.go('^');
                     }, function (err) {
                         $scope.taskTextErrors = err.data.text
@@ -45,6 +54,7 @@ angular.module('TaskManager')
                 }
             }
         };
+
         function getTasks() {
             Task.query().$promise.
                 then(function (tasks) {

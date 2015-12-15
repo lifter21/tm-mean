@@ -7,6 +7,5 @@ var userSchema = new Schema({
     email: String,
     password: String
 });
-//console.log('user model loaded...');
 
  module.exports = mongoose.model('users', userSchema);

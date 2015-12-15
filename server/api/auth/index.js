@@ -3,7 +3,6 @@ var User = require('../../models/users');
 module.exports = function (app) {
     /* ----- Session ----- */
 
-    // req.session.userId --> req.user
     app.use(function (req, res, next) {
         if (req.session.userId) {
             User.findById(req.session.userId, '-password', function (err, user) {
@@ -35,6 +34,7 @@ module.exports = function (app) {
 
     // use isAuth on routes
     app.use('/api/tasks', isAuth);
+    app.use('/api/users', isAuth);
     app.use('/api/me', isAuth);
 
     // Login

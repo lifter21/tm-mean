@@ -13,9 +13,11 @@
         <li class="list-group-item" ng-repeat="task in tasks">
             <p>
                 <span class="text-info text-capitalize">{{$index+1}}. {{task.text}}</span>
-                <a class="pull-right text-danger" style="margin-right:10px; margin-left:5px;" ng-click="remove(task)">remove</a>
+                <a class="pull-right text-danger" ng-if="task.creator._id === AuthService.user._id"
+                   style="margin-right:10px; margin-left:5px;" ng-click="remove(task)">remove</a>
                 <a class="pull-right" style="margin-right:10px; margin-left:5px;" ui-sref="task({taskId: task._id})">Details</a>
-                <a class="pull-right" style="margin-right:10px; margin-left:5px;" ui-sref="task.edit({taskId: task._id})">Edit</a>
+                <a class="pull-right" style="margin-right:10px; margin-left:5px;"
+                   ng-if="task.creator._id === AuthService.user._id" ui-sref="task.edit({taskId: task._id})">Edit</a>
             </p>
         </li>
     </ul>

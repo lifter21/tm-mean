@@ -57,8 +57,5 @@ angular.module('TaskManager')
                         $scope.passErrors = err.data.password;
                     });
             }
-
-
         }
-
     });

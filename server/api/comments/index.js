@@ -12,7 +12,7 @@ module.exports = function (app) {
     app.param("commentId", function (req, res, next, id) {
         Comment
             .findById(id)
-            .populate('user', '-password')
+            .populate('creator', '-password')
             .populate('task')
             .exec(function (err, comment) {
             if (err) {
@@ -30,7 +30,7 @@ module.exports = function (app) {
     app.get('/api/tasks/:taskId/comments', function (req, res, next) {
         Comment
             .find({task: req.task})
-            .populate('user', '-password')
+            .populate('creator', '-password')
             .exec(function (err, comments) {
                 if (err) {
                     return next(err);
@@ -43,7 +43,7 @@ module.exports = function (app) {
         if (req.form.isValid) {
             var comment = new Comment({
                 task: req.task,
-                user: req.user,
+                creator: req.user,
                 text: req.body.text
             });
             comment.save(function (err, comment) {

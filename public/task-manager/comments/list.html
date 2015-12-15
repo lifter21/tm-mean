@@ -23,7 +23,7 @@
                          ng-click="remove(comment)">remove</a>
                       <a class="pull-right" style="margin-right:10px; margin-left:5px;" ui-sref="comment.edit({commentId: comment._id, taskId: comment.task})">Edit</a>
                   </div>
-                  <span class="text-info text-capitalize badge">added by: {{comment.user.name}}</span>
+                  <span class="text-info text-capitalize badge">added by: {{comment.creator.name}}</span>
               </li>
           </ul>
 	  </div>
