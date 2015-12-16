@@ -4,7 +4,7 @@ angular.module('TaskManager')
     })
     .controller('TasksController', function ($scope, $state, Task, User) {
         getTasks();
-
+        $scope.users = [];
 
         var getUsers = function () {
             User.query().$promise
@@ -35,7 +35,7 @@ angular.module('TaskManager')
 
         $scope.save = function () {
 
-            validateTaskForm();
+            //validateTaskForm();
 
             if ($scope.task.text) {
 

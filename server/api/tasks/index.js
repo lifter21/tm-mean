@@ -18,8 +18,8 @@ module.exports = function (app) {
             .findOne({
                 _id: id,
                 $or: [
-                    {creator: req.user._id},
-                    {users: {$in: [req.user._id]}}
+                    {creator: req.user},
+                    {users: req.user}
                 ]
             })
             .populate('creator', '-password')
@@ -41,8 +41,8 @@ module.exports = function (app) {
         Task
             .find({
                 $or: [
-                    {creator: req.user._id},
-                    {users: {$in: [req.user._id]}}
+                    {creator: req.user},
+                    {users: {$in: [req.user]}}
                 ]
             })
             .populate('creator', '-password')
@@ -59,7 +59,7 @@ module.exports = function (app) {
         if (req.form.isValid) {
             var task = new Task({
                 text: req.form.text,
-                creator: req.user._id,
+                creator: req.user,
                 users: req.form.users
 
             });

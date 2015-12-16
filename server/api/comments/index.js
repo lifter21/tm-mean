@@ -11,7 +11,7 @@ module.exports = function (app) {
 
     app.param("commentId", function (req, res, next, id) {
         Comment
-            .findById(id)
+            .findOne({_id: id, task: req.task})
             .populate('creator', '-password')
             .populate('task')
             .exec(function (err, comment) {
@@ -66,7 +66,7 @@ module.exports = function (app) {
         //req.comment
         if (req.form.isValid) {
 
-            req.comment.text = req.body.text;
+            req.comment.text = req.form.text;
 
             req.comment.save(function (err, comment) {
                 if (err) {

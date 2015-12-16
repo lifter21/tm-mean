@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="TaskManager">
 <head>
-    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css"/>
+
+    <!-- JS-->
     <script src="lib/jquery/dist/jquery.min.js"></script>
-    <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="lib/angular/angular.min.js"></script>
     <script src="lib/angular-resource/angular-resource.min.js"></script>
+    <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="lib/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="lib/ui-select/dist/select.min.js"></script>
+
     <script src="task-manager/taskManager.js"></script>
     <script src="task-manager/common/directives/historyBack.js"></script>
     <script src="task-manager/auth/authService.js"></script>
@@ -15,10 +19,16 @@
     <script src="task-manager/tasks/tasksController.js"></script>
     <script src="task-manager/comments/commentsController.js"></script>
     <script src="task-manager/comments/taskController.js"></script>
+
+    <!-- CSS-->
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <script src="lib/ui-select/dist/select.css"></script>
+
     <meta charset="UTF-8">
     <title>Task Manager</title>
 </head>
 <body>
+
 <div class="container">
     <div class="row">
         <nav class="navbar navbar-default">

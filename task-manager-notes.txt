@@ -1,0 +1,17 @@
+---> use commentId and req.task in comment get request
+
+---> use small controllers for small part of module, e.g. taskListController, taskFormController, taskShowController, etc.
+
+---> user short form in mongo/mongoose requests: Task.find({_id: req.task, creator: req.user, users: req.user})
+
+---> use symmetrical data model in each part, where object is used
+
+---> use angular form for client-side validations
+
+---> use descriptive and clear for understanding names of routes, controllers, modules
+
+---> store viewable data and logic in views
+
+---> use angular global interceptor for authorization catching
+
+---> use only modules, and sometimes common path for common useful files(directives, views)

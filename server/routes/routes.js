@@ -1,15 +1,15 @@
 module.exports = function (app) {
 
     ///* ----- Session ----- */
-    require('./../api/auth/')(app);
+    require('./../api/auth')(app);
 
     ///* ----- users ----- */
-    require('./../api/users/')(app);
+    require('./../api/users')(app);
 
     /* ----- Tasks ----- */
-    require('./../api/tasks/')(app);
+    require('./../api/tasks')(app);
 
     /* ----- Comments ----- */
-    require('./../api/comments/')(app);
+    require('./../api/comments')(app);
 
 };

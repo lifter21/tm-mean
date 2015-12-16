@@ -1,4 +1,4 @@
-angular.module('TaskManager', ['ui.router', 'ngResource'])
+angular.module('TaskManager', ['ui.router', 'ngResource', 'ui.select', 'ngSanitize'])
     .config(function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/');
 
@@ -43,11 +43,11 @@ angular.module('TaskManager', ['ui.router', 'ngResource'])
                         controller: 'TaskController',
                         templateUrl: 'task-manager/tasks/task.html'
                     },
-                    "comments@task" : {
+                    "comments@task": {
                         controller: 'CommentsController',
                         templateUrl: 'task-manager/comments/list.html'
                     },
-                    "details@task" : {
+                    "details@task": {
                         controller: 'TasksController',
                         templateUrl: 'task-manager/tasks/task.details.html'
                     }
@@ -73,7 +73,7 @@ angular.module('TaskManager', ['ui.router', 'ngResource'])
                         controller: 'CommentsController',
                         templateUrl: 'task-manager/comments/list.html'
                     },
-                    "details@comments" : {
+                    "details@comments": {
                         controller: 'TaskController',
                         templateUrl: 'task-manager/tasks/task.text.html'
                     }
@@ -86,7 +86,7 @@ angular.module('TaskManager', ['ui.router', 'ngResource'])
                         controller: 'CommentsController',
                         templateUrl: 'task-manager/comments/form.html'
                     },
-                    "@comments.new" : {
+                    "@comments.new": {
                         controller: 'TaskController',
                         templateUrl: 'task-manager/tasks/task.text.html'
                     }
@@ -108,13 +108,14 @@ angular.module('TaskManager', ['ui.router', 'ngResource'])
                         controller: 'CommentsController',
                         templateUrl: 'task-manager/comments/form.html'
                     },
-                    "@comment.edit" : {
+                    "@comment.edit": {
                         controller: 'TaskController',
                         templateUrl: 'task-manager/tasks/task.text.html'
                     }
                 }
             });
     })
+
     .run(function ($rootScope, AuthService) {
         $rootScope.AuthService = AuthService;
         $rootScope.AuthService.me();

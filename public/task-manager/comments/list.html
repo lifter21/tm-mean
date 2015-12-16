@@ -13,7 +13,7 @@
                       <a type="button" class="btn btn-default" history-back>Back</a>
                   </p>
               </div>
-              <span class="list-group-item" ng-if="noCommentsMessage">{{noCommentsMessage}}</span>
+              <span class="list-group-item" ng-if="!comments.length">no comments</span>
 
               <li class="list-group-item" ng-repeat="comment in comments" style="margin-bottom: 12px;">
                   <div>

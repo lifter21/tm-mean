@@ -36,8 +36,10 @@ angular.module('TaskManager')
 
         }
 
-        $scope.register = function () {
+        //@@TODO ng form
+        $scope.register = function (form) {
 
+            //form.isValid()
             validateRegistrationForm();
 
             if ($scope.user.name && $scope.user.password && $scope.user.email && $scope.user.confirmation === $scope.user.password) {
@@ -51,6 +53,8 @@ angular.module('TaskManager')
                         $state.go('login')
                     }, function (err) {
                         //$scope.formErrors = err.data;
+                        //$scope.error = err.data;
+                        //
                         $scope.nameErrors = err.data.name;
                         $scope.passConfErrors = err.data.confirmation;
                         $scope.emailErrors = err.data.email;
