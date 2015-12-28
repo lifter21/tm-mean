@@ -1,21 +1,15 @@
-angular.module('TaskManager')
+app
     .controller('LoginController', function ($scope, $state, AuthService) {
-        $scope.form = {};
         $scope.login = function () {
-            AuthService.login($scope.form.username, $scope.form.password)
+            AuthService.login($scope.user.name, $scope.user.password)
                 .then(function (user) {
-                    if (!!user._id) {
-                        $state.go('home');
-                    } else {
-                        $scope.form = {};
-                        $scope.formError = 'Invalid login data..'
-                    }
-
-                });
+                    $state.go('app.tasks')
+                })
         }
     })
     .controller('LogoutController', function ($scope, $state, AuthService) {
-        AuthService.logout().then(function (resp) {
-            $state.go('login')
+        AuthService.logout().then(function () {
+            $state.go('app.login')
         })
-    });
+    })
+;

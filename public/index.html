@@ -1,85 +1,78 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="TaskManager">
-<head>
+<!doctype html>
+<html lang="en" >
+<head >
+    <meta charset="UTF-8">
 
-    <!-- JS-->
+    <!-- JS -->
+    <!--   lib -->
     <script src="lib/jquery/dist/jquery.min.js"></script>
-    <script src="lib/angular/angular.min.js"></script>
-    <script src="lib/angular-resource/angular-resource.min.js"></script>
     <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="lib/angular/angular.min.js"></script>
     <script src="lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="lib/angular-resource/angular-resource.min.js"></script>
     <script src="lib/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="lib/ui-select/dist/select.min.js"></script>
 
-    <script src="task-manager/taskManager.js"></script>
+    <!-- task-manager -->
+    <script src="task-manager/task-manager.js"></script>
+
     <script src="task-manager/common/directives/historyBack.js"></script>
+
+    <!-- auth -->
     <script src="task-manager/auth/authService.js"></script>
     <script src="task-manager/auth/authControllers.js"></script>
-    <script src="task-manager/users/usersController.js"></script>
-    <script src="task-manager/tasks/tasksController.js"></script>
-    <script src="task-manager/comments/commentsController.js"></script>
-    <script src="task-manager/comments/taskController.js"></script>
 
-    <!-- CSS-->
+    <!-- user -->
+    <script src="task-manager/user/userService.js"></script>
+    <script src="task-manager/user/userRegistrationController.js"></script>
+
+    <!-- task -->
+    <script src="task-manager/task/taskService.js"></script>
+    <script src="task-manager/task/taskListController.js"></script>
+    <script src="task-manager/task/taskFormController.js"></script>
+    <script src="task-manager/task/taskShowController.js"></script>
+
+    <!-- comment -->
+    <script src="task-manager/comment/commentService.js"></script>
+    <script src="task-manager/comment/commentListController.js"></script>
+    <script src="task-manager/comment/commentFormController.js"></script>
+    <script src="task-manager/comment/commentShowController.js"></script>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <script src="lib/ui-select/dist/select.css"></script>
+    <link rel="stylesheet" href="lib/ui-select/dist/select.min.css"/>
 
-    <meta charset="UTF-8">
-    <title>Task Manager</title>
+    <title>Document</title>
+
 </head>
-<body>
+<body ng-app="TaskManager">
+<nav class="navbar navbar-default text-center" role="navigation">
+	<!-- Brand and toggle get grouped for better mobile display -->
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" ui-sref="app.home">Home</a>
+		<a class="navbar-brand" ui-sref="app.tasks">Tasks</a>
 
+	</div>
+    <div ui-view="authPanel">
+
+    </div>
+
+</nav>
 <div class="container">
-    <div class="row">
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                            aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">TasMan</a>
-                </div>
-                <div id="navbar" class="navbar-collapse collapse text-center">
-                    <ul class="nav navbar-nav ">
-                        <li>
-                            <a ui-sref="home">Home</a>
-                        </li>
-                        <li>
-                            <a ng-if="AuthService.hasUser()" ui-sref="tasks">Tasks</a>
-                        </li>
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+            <div ui-view>
 
-                    </ul>
-
-                    <ul class="nav navbar-nav navbar-right text-center">
-                        <li>
-
-                            <a href=""><span class="text-primary">{{AuthService.user.name}}</span></a>
-                        </li>
-
-                        <li>
-
-                            <a ui-sref="login" ng-if="!AuthService.hasUser()">Login</a>
-                        </li>
-                        <li>
-                            <a ui-sref="sign-in" ng-if="!AuthService.hasUser()">Sign up</a>
-                        </li>
-                        <li>
-                            <a ui-sref="logout" ng-if="AuthService.hasUser()">Logout</a>
-                        </li>
-                    </ul>
-                </div>
-                <!--/.nav-collapse -->
             </div>
-            <!--/.container-fluid -->
-        </nav>
-    </div>
-    <div class="row" ui-view>
-
-    </div>
+		</div>
+	</div>
 </div>
+
 </body>
 </html>

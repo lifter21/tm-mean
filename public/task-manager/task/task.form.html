@@ -1,0 +1,29 @@
+<form name="TaskForm" role="form" ng-submit="save($event, TaskForm.$valid)" ng-keypress="save($event)"
+      class="col-md-10 col-md-offset-1" novalidate>
+    <legend>Form Title</legend>
+
+    <div class="form-group" ng-class="{'has-error': TaskForm.text.$invalid && !TaskForm.text.$pristine}">
+        <label for="task-text">Task text</label>
+        <input type="text" class="form-control" name="text" id="task-text" placeholder="Task text..."
+               ng-model="task.text" ng-minlength="2" required>
+        <span class="text-danger" ng-repeat="textError in formErrors.text">{{textError}}<br/></span>
+        <span ng-show="TaskForm.text.$invalid && !TaskForm.text.$pristine" class="help-block small">Task text is required.</span>
+        <span ng-show="TaskForm.text.$error.minlength" class="help-block small">Task text is too short.</span>
+
+
+    </div>
+    <div class="form-group">
+        <label for="task-users">Users</label>
+        <!--<input type="text" class="form-control" name="task-users" id="task-users" placeholder="Task users..." ng-model="task.users"> -->
+        <ui-select multiple ng-model="task.users">
+            <ui-select-match placeholder="Select users..."><b>{{$item.local.name}}:</b> <em>&lt;{{$item.email}}&gt;</em>
+            </ui-select-match>
+            <ui-select-choices repeat="user in users | filter:$select.search">
+                <span><b>{{user.local.name}}:</b> <em>{{user.email}}</em></span>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+    <span class="small"><em>Press Submit or <b>Ctrl+Enter</b> to submit Task</em></span><br/>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a class="btn btn-default" history-back>Back</a>
+</form>

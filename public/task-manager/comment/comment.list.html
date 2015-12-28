@@ -1,0 +1,21 @@
+<div class="panel panel-default">
+    <div class="panel-heading">Task comments</div>
+
+    <div class="panel-body">
+        <ul class="list-group">
+            <a class="btn btn-info" ui-sref="app.task.comments.new({taskId: taskId})">Add comment</a>
+            <a class="btn btn-default" ng-if="commentListState()" history-back>Back</a>
+        </ul>
+        <ul class="list-group">
+            <li class="list-group-item" ng-if="!taskComments.length">There are no comments yet...</li>
+            <li class="list-group-item" ng-if="taskComments.length" ng-repeat="comment in taskComments" style="margin-bottom: 10px;border-radius: 10px;">
+                <span><a ui-sref="app.comment({taskId: comment.task._id, commentId: comment._id})">{{comment.text}}</a></span>
+                <span class="pull-right">
+                    &nbsp;<a class="text-primary" ng-if="CommentService.isCreatorOf(comment)" ui-sref="app.comment.edit({taskId: comment.task._id, commentId: comment._id})">edit</a>&nbsp;
+                    &nbsp;<a href="" class="text-danger" ng-if="CommentService.isCreatorOf(comment)" ng-click="remove(comment)">remove</a>&nbsp;
+                </span><br/>
+                <span class="badge">added by: {{comment.creator.local.name}} at: {{comment.createdAt | date}}</span>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+<!-- Collect the nav links, forms, and other content for toggling -->
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav navbar-right">
+        <li class="navbar-brand "  ng-if="AuthService.isUser()"><b>{{AuthService.user.local.name}}</b></li>
+        <li><a class="navbar-brand" ui-sref="app.login" ng-if="!AuthService.isUser()">Login</a></li>
+        <li> <a class="navbar-brand" ui-sref="app.logout" ng-if="AuthService.isUser()">Logout</a></li>
+        <li><a class="navbar-brand" ui-sref="app.registration"  ng-if="!AuthService.isUser()">Sign Up</a></li>
+    </ul>
+</div><!-- /.navbar-collapse -->

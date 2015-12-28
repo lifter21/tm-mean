@@ -1,52 +1,80 @@
-var Comment = require('../../models/comments');
-
+var Comment = require('../../models/comment');
 var form = require('express-form');
 var field = form.field;
 
 module.exports = function (app) {
-    /* ----- Comments ----- */
-    var commentForm = form(
-        field('text').required().minLength(2)
+
+    var CommentForm = form(
+        field('text').trim().required()
     );
 
-    app.param("commentId", function (req, res, next, id) {
-        Comment
-            .findOne({_id: id, task: req.task})
-            .populate('creator', '-password')
-            .populate('task')
-            .exec(function (err, comment) {
-            if (err) {
-                return next(err);
-            }
-            if (!comment) {
-                return res.status(404).send('no such comment');
-            }
-            req.comment = comment;
+    var CommentCreatorPermissions = function (req, res, next) {
+        if (req.Comment.isCreator(req.User)) {
             next();
-        });
+        } else {
+            res.status(403).send('No permissions for comment editing.');
+        }
+    };
+
+    app.param('commentId', function (req, res, next, commentId) {
+        Comment.findOne({
+            _id: commentId,
+            task: req.Task
+        })
+            .populate('task')
+            .populate('creator', 'email local.name')
+            .exec(function (err, comment) {
+                if (err) {
+                    return next(err);
+                }
+
+                req.Comment = comment;
+                next();
+            })
+    });
+
+    app.post('/api/tasks/:taskId/comments', CommentForm, function (req, res, next) {
+
+        if (req.form.isValid) {
+            var newComment = new Comment({
+                creator: req.User,
+                task: req.Task,
+                text: req.form.text
+            });
+            newComment.save(function (err, comment) {
+                if (err) {
+                    return next(err);
+                }
+                res.json(comment);
+            })
+        } else {
+            res.status(400).json(req.form.getErrors());
+        }
 
     });
 
     app.get('/api/tasks/:taskId/comments', function (req, res, next) {
         Comment
-            .find({task: req.task})
-            .populate('creator', '-password')
+            .find({task: req.Task})
+            .populate('task')
+            .populate('creator', 'email local.name')
+            //.sort({createdAt: -1})
             .exec(function (err, comments) {
                 if (err) {
                     return next(err);
                 }
-                res.json(comments);
+                res.json(comments)
             })
     });
 
-    app.post('/api/tasks/:taskId/comments', commentForm, function (req, res, next) {
+    app.get('/api/tasks/:taskId/comments/:commentId', function(req, res, next) {
+        res.json(req.Comment);
+    });
+
+    app.put('/api/tasks/:taskId/comments/:commentId', CommentForm, CommentCreatorPermissions, function(req, res, next) {
         if (req.form.isValid) {
-            var comment = new Comment({
-                task: req.task,
-                creator: req.user,
-                text: req.body.text
-            });
-            comment.save(function (err, comment) {
+            req.Comment.text = req.form.text;
+            req.Comment.save(function (err, comment) {
                 if (err) {
                     return next(err);
                 }
@@ -55,34 +83,12 @@ module.exports = function (app) {
         } else {
             res.status(400).json(req.form.getErrors());
         }
-
     });
 
-    app.get('/api/tasks/:taskId/comments/:commentId', commentForm, function (req, res) {
-        res.json(req.comment)
-    });
-
-    app.put('/api/tasks/:taskId/comments/:commentId', commentForm, function (req, res, next) {
-        //req.comment
-        if (req.form.isValid) {
-
-            req.comment.text = req.form.text;
-
-            req.comment.save(function (err, comment) {
-                if (err) {
-                    return next(err)
-                }
-                res.json(comment);
-            })
-        } else {
-            res.status(400).json(req.form.getErrors());
-        }
-    });
-
-    app.delete('/api/tasks/:taskId/comments/:commentId', function (req, res, next) {
-        req.comment.remove(function (err, comment) {
+    app.delete('/api/tasks/:taskId/comments/:commentId', CommentCreatorPermissions, function(req, res, next) {
+        req.Comment.remove(function (err, comment) {
             if (err) {
-                return next(err)
+                return next(err);
             }
             res.json(comment);
         })

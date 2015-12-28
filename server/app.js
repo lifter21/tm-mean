@@ -1,27 +1,29 @@
 var express = require('express');
+var bodyParser = require('body-parser');
+var session = require('express-session');
+
 var app = express();
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/task-manager');
 
-var session = require('express-session');
-var bodyParser = require('body-parser');
-app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({extended: true})); // for parsing application/x-www-form-urlencoded
-
-app.use(express.static('public'));
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/json
+app.use(bodyParser.json());
 
 app.use(session({
-    secret: 'some difficult super secret key or SSH key',
-    resave: false,
+    secret: 'sdkbvkjdbvdjvbf',
+    resave: true,
     saveUninitialized: true,
     cookie: { maxAge: 4*7*24*60*60*1000 }
 }));
 
-require('./routes/routes')(app);
+app.use(express.static('public'));
 
-// server
+require('./routes')(app);
+
 var server = app.listen(4000, function () {
     var port = server.address().port;
-    console.log('Now server is running on %s port', port);
+    console.log('Now server is running on %s port...', port);
 });

@@ -1,0 +1,23 @@
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">Task info</h3>
+    </div>
+    <div class="panel-body">
+        <ul class="list-group">
+            <li class="list-group-item"><h4>{{task.text}}</h4></li>
+            <li class="list-group-item">Creator: <em>{{task.creator.local.name}}</em></li>
+            <li class="list-group-item">Watchers:
+                <span ng-repeat="user in task.users">
+                    <em>{{ user.local.name}}</em><span ng-if="$index !== (task.users.length-1)">,</span>
+                </span>
+            </li>
+        </ul>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a class="btn btn-info" ng-if="task.creator._id === AuthService.user._id" ui-sref="app.task.edit({taskId: task._id})">Edit</a>
+                <a class="btn btn-default" ui-sref="app.tasks">Back</a>
+                <a class="btn btn-danger pull-right" ng-if="task.creator._id === AuthService.user._id" ng-click="remove(task)">Remove</a>
+            </li>
+        </ul>
+    </div>
+</div>

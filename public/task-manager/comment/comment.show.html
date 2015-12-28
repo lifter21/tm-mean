@@ -1,0 +1,17 @@
+<div class="panel panel-info">
+	  <div class="panel-heading">
+			<legend class="panel-title">Comment</legend>
+	  </div>
+	  <div class="panel-body">
+			<ul class="list-group">
+				<li class="list-group-item">{{comment.text}}</li>
+			</ul>
+          <ul class="list-group">
+				<li class="list-group-item">
+                    <a class="btn btn-info" ng-if="CommentService.isCreatorOf(comment)" ui-sref="app.comment.edit({taskId: comment.task._id, commentId: comment._id})">Edit</a>
+                    <a class="btn btn-default" history-back>Back</a>
+                    <a class="btn btn-danger pull-right" ng-if="CommentService.isCreatorOf(comment)" ng-click="remove(comment)">Remove</a>
+                </li>
+			</ul>
+	  </div>
+</div>
