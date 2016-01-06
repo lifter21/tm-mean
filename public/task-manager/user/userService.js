@@ -11,7 +11,10 @@ app
                 }
             })
     })
-    .factory('UserService', function (User) {
+    .factory("UserRegistration", function ($resource) {
+        return $resource('/api/register')
+    })
+    .factory('UserService', function (User, UserRegistration) {
         var self = {
 
             getUsers: function () {
@@ -40,11 +43,11 @@ app
             },
 
             newUser: function () {
-                return new User();
+                return new UserRegistration();
             },
 
             saveUser: function (user) {
-                user.$save(
+                return user.$save(
                     function (user) {
                         console.log('User created:', user);
                     },

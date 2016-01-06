@@ -4,6 +4,8 @@ app
             AuthService.login($scope.user.name, $scope.user.password)
                 .then(function (user) {
                     $state.go('app.tasks')
+                }, function (err) {
+                    $scope.loginError = err.data.loginError;
                 })
         }
     })

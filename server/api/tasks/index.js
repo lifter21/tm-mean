@@ -11,7 +11,7 @@ module.exports = function (app) {
     );
 
     var TaskCreatorPermissions = function (req, res, next) {
-        if (req.Task.isCreator(req.User)) {
+        if (req.Task.isCreator(req.user)) {
             next();
         } else {
             res.status(403).send('No permissions for task editing');
@@ -22,8 +22,8 @@ module.exports = function (app) {
         Task.findOne({
             _id: taskId,
             $or: [
-                {creator: req.User},
-                {users: req.User}
+                {creator: req.user},
+                {users: req.user}
             ]
         })
             .populate('creator', '-local.passwordHash -local.passwordSalt')
@@ -43,8 +43,8 @@ module.exports = function (app) {
     app.get('/api/tasks', function (req, res, next) {
         Task.find({
             $or: [
-                {creator: req.User},
-                {users: req.User}
+                {creator: req.user},
+                {users: req.user}
             ]
         })
             .populate('creator', '-local.passwordHash -local.passwordSalt')
@@ -66,6 +66,16 @@ module.exports = function (app) {
         if (req.form.isValid) {
             req.Task.text = req.form.text;
             req.Task.users = req.form.users;
+
+            if (req.query.finished==='true') {
+                req.Task.finished = true;
+                req.Task.finishedAt = Date.now();
+            }
+
+            if (req.query.finished === 'false') {
+                req.Task.finished = false;
+                req.Task.finishedAt = undefined;
+            }
 
             req.Task.save(function (err, task) {
                 if (err) {
@@ -90,7 +100,7 @@ module.exports = function (app) {
     app.post('/api/tasks', TaskForm, function (req, res, next) {
         if (req.form.isValid) {
             var task = new Task({
-                creator: req.User,
+                creator: req.user,
                 text: req.form.text,
                 users: req.form.users
             });

@@ -3,11 +3,18 @@ var Schema = mongoose.Schema;
 var crypto = require('crypto');
 
 var UserSchema = new Schema({
+    first: String,
+    last: String,
     email: String,
     local: {
         name: String,
         passwordHash: String,
         passwordSalt: String
+    },
+    facebook: {
+        id: String,
+        email: String,
+        token: String
     },
     createdAt: {type: Date, default: Date.now()}
 });
@@ -19,7 +26,7 @@ function hash(data) {
         .createHash('sha256')
         .update(data)
         .digest('hex')
-};
+}
 
 UserSchema.methods = {
 
@@ -35,6 +42,10 @@ UserSchema.methods = {
 
 UserSchema.virtual('local.password').set(function (password) {
     this.setPassword(password);
+});
+
+UserSchema.virtual('fullname').get(function () {
+    return [this.first, this.last].join(' ');
 });
 
 module.exports = mongoose.model("User", UserSchema);

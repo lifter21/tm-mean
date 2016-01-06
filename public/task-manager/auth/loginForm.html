@@ -1,18 +1,24 @@
-<form role="form" novalidate ng-submit="login()">
-	<legend>User login</legend>
+<div class="col-md-9">
+	<form role="form" novalidate ng-submit="login()">
+		<legend>User login</legend>
+		<span class="text-danger" ng-if="loginError">{{ loginError }}</span>
+		<div class="form-group">
+			<label for="username">Name or E-mail</label>
+			<input type="text" class="form-control" id="username" placeholder="Your name..."
+				   ng-model="user.name">
+		</div>
 
-	<div class="form-group">
-		<label for="username">Name</label>
-		<input type="text" class="form-control" id="username" placeholder="Your name..."
-               ng-model="user.name">
-	</div>
-
-	<div class="form-group">
-		<label for="userpassword">Password</label>
-		<input type="password" class="form-control" id="userpassword" placeholder="Password..."
-               ng-model="user.password">
-	</div>
+		<div class="form-group">
+			<label for="userpassword">Password</label>
+			<input type="password" class="form-control" id="userpassword" placeholder="Password..."
+				   ng-model="user.password">
+		</div>
 
 
-	<button type="submit" class="btn btn-primary">Login</button>
-</form>
+		<button type="submit" class="btn btn-primary">Login</button>
+	</form>
+</div>
+<br/>
+<div class="col-md-3 text-center">
+	<a class="btn btn-default btn-info" href="/auth/facebook">Login with Facebook</a>
+</div>

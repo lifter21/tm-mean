@@ -7,6 +7,8 @@ var TaskSchema = new Schema({
     creator: {type: Schema.Types.ObjectId, ref: 'User'},
     text: String,
     users: [{type: Schema.Types.ObjectId, ref: 'User'}],
+    finished: {type: Boolean, default: false},
+    finishedAt: {type: Date},
     createdAt: {type: Date, default: Date.now()}
 });
 
@@ -15,7 +17,7 @@ TaskSchema.post('remove', function (task) {
         if (err) {
             return next(err)
         }
-        console.log('Task comments were successfully removed.');
+        console.log('Task comments have been been successfully removed...');
     });
 });
 

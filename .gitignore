@@ -1,5 +1,6 @@
-.idea/
-.vagrant/
+.idea
+.vagrant
 public/lib/
-node_modules/
-*.log
+node_modules
+*.logdata
+data

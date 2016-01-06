@@ -17,12 +17,22 @@ module.exports = function (app) {
                 return next(null);
             })
         }),
-        field('email').trim().required().isEmail(),
+        field('email').trim().required().isEmail().custom(function (email, source, next) {
+            User.findOne({email: email}, function (err, user) {
+                if (err) {
+                    return next(err)
+                }
+                if (user) {
+                    return next(new Error("%s " + user.email + " is already used.") )
+                }
+                return next(null);
+            })
+        }),
         field('password').trim().required().minLength(3),
         field('passConfirmation').trim().required().equals('field::password')
     );
 
-    app.post('/api/users', UserForm, function (req, res, next) {
+    app.post('/api/register', UserForm, function (req, res, next) {
 
         if (req.form.isValid) {
 
@@ -56,9 +66,5 @@ module.exports = function (app) {
                 }
                 res.json(users);
             })
-    });
-
-    app.get('/api/users/me', function (req, res, next) {
-       res.json(req.User);
     });
 };

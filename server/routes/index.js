@@ -1,6 +1,6 @@
-module.exports = function (app) {
+module.exports = function (app, passport) {
 //    ________ auth
-    require('../api/auth')(app);
+    require('../api/auth')(app, passport);
 
 //    ________ user
     require('../api/users')(app);

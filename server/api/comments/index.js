@@ -9,7 +9,7 @@ module.exports = function (app) {
     );
 
     var CommentCreatorPermissions = function (req, res, next) {
-        if (req.Comment.isCreator(req.User)) {
+        if (req.Comment.isCreator(req.user)) {
             next();
         } else {
             res.status(403).send('No permissions for comment editing.');
@@ -37,7 +37,7 @@ module.exports = function (app) {
 
         if (req.form.isValid) {
             var newComment = new Comment({
-                creator: req.User,
+                creator: req.user,
                 task: req.Task,
                 text: req.form.text
             });

@@ -12,34 +12,33 @@ app
         var self= {
             user: null,
             login: function (username, password) {
-                return Login.save({username: username, password: password}).$promise
-                    .then(function (user) {
-                        self.user = user;
-                        console.log(user.local.name, ' successfully logged in.');
-                    }, function (err) {
-                        console.log('User login error', err.data);
-                    })
+                return Login.save({username: username, password: password}, function (user) {
+                    self.user = user;
+                    console.log(user.local.name, ' successfully logged in.');
+                }, function (err) {
+                    console.log('User login error', err.data);
+                }).$promise
+
             },
             logout: function () {
-                return Logout.save().$promise
-                    .then(function () {
-                        self.user = null;
-                        console.log('Logged out successfully');
-                    }, function (err) {
-                        console.log('Logout err');
-                    })
+                return Logout.save(function () {
+                    self.user = null;
+                    console.log('Logged out successfully');
+                }, function (err) {
+                    console.log('Logout err');
+                }).$promise
             },
             isUser: function () {
                 return !!self.user;
             },
             Me: function () {
-                Me.get().$promise.then(function (user) {
+                Me.get(function (user) {
                     if (user.hasOwnProperty('local')) {
                         self.user = user;
                     }
                 }, function (err) {
                     console.log("Can't get me", err.data);
-                })
+                }).$promise;
             }
         };
 

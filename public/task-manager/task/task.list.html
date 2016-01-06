@@ -1,15 +1,15 @@
 <ul class="list-group">
     <li class="list-group-item">
-        <a class="btn btn-default" ui-sref="app.tasks.new">New Task</a>
+        <a class="btn btn-info" ui-sref="app.tasks.new">New Task</a>
     </li>
 </ul>
-<div class="">
+<div >
     <legend>My tasks</legend>
-    <ul class="list-group">
+    <ul class="list-group" >
         <li class="list-group-item" ng-if="!userTasks.length">There are no tasks added to list yet. Add task now!</li>
         <li class="list-group-item" ng-if="userTasks.length" ng-repeat="task in userTasks">
 
-            <span class="text-info"><a ui-sref="app.task({taskId: task._id})">{{task.text}}</a></span>
+            <span class="text-info"><a ui-sref="app.task({taskId: task._id})"  ng-class="{'text-del text-danger': task.finished}">{{task.text}}</a></span>
 
             <span class="pull-right">
                 &nbsp;<a class="text-primary" ui-sref="app.task.edit({taskId: task._id})">edit</a>&nbsp;
@@ -19,14 +19,14 @@
         </li>
     </ul>
 </div>
-<div class="">
+<div >
     <legend>Allocated to me tasks</legend>
     <ul class="list-group">
         <li class="list-group-item" ng-if="!otherTasks.length">There are no tasks in this list yet.</li>
         <li class="list-group-item" ng-if="otherTasks.length" ng-repeat="task in otherTasks">
             <span class="badge">allocated by:   {{task.creator.local.name}}</span>
 
-            <span class="text-info"><a ui-sref="app.task({taskId: task._id})">{{task.text}}</a></span>
+            <span class="text-info"><a ui-sref="app.task({taskId: task._id})" ng-class="{'text-del text-danger': task.finished}">{{task.text}}</a></span>
 
             <div class="pull-right">
                 &nbsp;<a class="text-primary" ui-sref="app.task.comments({taskId: task._id})">comments</a>&nbsp;

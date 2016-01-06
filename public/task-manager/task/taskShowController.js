@@ -22,5 +22,23 @@ app
                     console.log(err.data);
                 })
             }
+        };
+
+        $scope.finish = function (task) {
+            task.$update({finished: true}).then(function (task) {
+                console.log('Task finished: ', task);
+                $state.go('app.task',({taskId: task._id}));
+            }, function (err) {
+                console.log(err.data);
+            });
+        };
+
+        $scope.restore = function (task) {
+            task.$update({finished: false}).then(function (task) {
+                console.log('Task restored: ', task);
+                $state.go('app.task',({taskId: task._id}));
+            }, function (err) {
+                console.log(err.data);
+            });
         }
     });

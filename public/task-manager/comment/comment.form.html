@@ -1,14 +1,14 @@
-<form name="CommentForm" role="form" ng-submit="save($event, CommentForm.$valid)" ng-keypress="save($event)" novalidate>
+<form name="CommentForm" role="form" ng-submit="save($event, CommentForm.$valid)" ng-keypress="save($event, CommentForm.$valid)" novalidate>
 	<legend>Comment form</legend>
 
-	<div class="form-group" ng-class="{'has-error': CommentForm.text.$invalid && !CommentForm.text.$pristine}">
-		<label for="">Comment</label>
-		<textarea cols="4" class="form-control" name="text" id="" placeholder="Comment text..." ng-model="comment.text" autofocus required></textarea>
-		<span class="text-danger" ng-repeat="commentError in formErrors.text">{{commentError}}</span>
+	<div class="form-group" ng-class="{'has-error': (CommentForm.text.$invalid && !CommentForm.text.$pristine) || formErrors.text}">
+		<label for="commentText">Comment</label>
+		<textarea cols="4" class="form-control" name="text" id="commentText" placeholder="Comment text..." ng-model="comment.text" autofocus required></textarea>
+		<span class="text-danger small" ng-repeat="commentError in formErrors.text">{{commentError}}</span>
 		<span ng-show="CommentForm.text.$invalid && !CommentForm.text.$pristine" class="help-block small">Comment text is required</span>
 	</div>
 
-	<span class="small"><em>Press Submit or <b>Ctrl+Enter</b> to submit comment</em></span><br/>
-	<button type="submit" class="btn btn-primary">Submit</button>
+	<span class="small"><em>(Press <b>Submit</b> or <b>Ctrl+Enter</b> to submit comment)</em></span><br/>
+	<button type="submit" class="btn btn-primary" ng-disabled="CommentForm.$invalid || !comment.text">Submit</button>
 	<a type="button" history-back class="btn btn-default">Back</a>
 </form>

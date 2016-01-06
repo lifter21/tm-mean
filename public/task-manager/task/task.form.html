@@ -1,4 +1,4 @@
-<form name="TaskForm" role="form" ng-submit="save($event, TaskForm.$valid)" ng-keypress="save($event)"
+<form name="TaskForm" role="form" ng-submit="save($event, TaskForm.$valid)" ng-keypress="save($event, TaskForm.$valid)"
       class="col-md-10 col-md-offset-1" novalidate>
     <legend>Form Title</legend>
 
@@ -23,7 +23,7 @@
             </ui-select-choices>
         </ui-select>
     </div>
-    <span class="small"><em>Press Submit or <b>Ctrl+Enter</b> to submit Task</em></span><br/>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <span class="small"><em>(Press <b>Submit</b> or <b>Ctrl+Enter</b> to submit Task)</em></span><br/>
+    <button type="submit" class="btn btn-primary" ng-disabled="TaskForm.$invalid || !task.text">Submit</button>
     <a class="btn btn-default" history-back>Back</a>
 </form>
